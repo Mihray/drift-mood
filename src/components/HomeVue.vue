@@ -9,6 +9,11 @@ import BottomBar from './BottomBar/BottomBar.vue';
 
 export default {
     components: {BottomBar },
+    data(){
+        return{
+            juPath:null
+        }
+    },
     mounted(){
     this.$router.push('/card')
   },
@@ -19,12 +24,20 @@ export default {
             // path '/card/a' '/card/b' '/explore'
             // 判断一下 url 和path的前面一部分是不是一致
             // 所以第一步：要获取path前面这一部分字符串
+            path.indexOf("/")
+            if(path.lastIndexOf("/")===0){
+                this.juPath=path;
+                console.log(this.juPath)
+            }
+            if(path.lastIndexOf("/")!==0){
+                this.juPath=path.slice(0,path.lastIndexOf("/"))
+                console.log(this.juPath)
+            }
 
-            if(path===url){
+            if(this.juPath===url){
                 console.log('if');
                 return;
             }
-            console.log('if后面');
             this.$router.push(url)
         }
     }
