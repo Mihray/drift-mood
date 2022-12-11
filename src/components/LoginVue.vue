@@ -39,6 +39,10 @@ export default {
           alert('登录失败')
           console.log('登录失败了');
         }
+        if(res.data.result==='success'){
+          console.log('登录成功')
+          this.$router.push('/home')
+        }
       })
       .catch((err)=>{console.log(err)})
 
