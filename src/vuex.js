@@ -5,7 +5,14 @@ const store=createStore({
             login:{
                 name:'',
                 password:''
-            }
+            },
+            cardIpArr:[
+                {id:0,ip:'/card/hphoto'},
+                {id:1,ip:'/card/mood'},
+                {id:2,ip:'/card/background'},
+                {id:3,ip:'/card/send'},
+            ],
+            cardnowIp:''
         }
     },
     mutations:{
