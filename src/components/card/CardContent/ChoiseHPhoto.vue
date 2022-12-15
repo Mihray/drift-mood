@@ -14,7 +14,7 @@
         <div class="choiseHeadPhoto" >选择一个头像吧~
             <div class="choiseHeadPhoto-box"> 
                 <div class="choiseHeadPhoto-Photo01" v-for="item in photo" :key="item" @click="choisePhotoClick(item.id)">
-                    <div class="likeimg" v-show="item.photoShow"></div>
+                    <div class="likeimg" v-if="item.photoShow"></div>
                 </div>
             </div>
         </div>
@@ -32,13 +32,12 @@ export default {
             choiseShapeShow2:false,
 
             photo:[
-                {id:0,name:'photo0',photoShow:false},
+                {id:0,name:'photo0',photoShow:true},
                 {id:1,name:'photo1',photoShow:false},
                 {id:2,name:'photo2',photoShow:false},
                 {id:3,name:'photo3',photoShow:false},
                 {id:4,name:'photo4',photoShow:false}
-            ]
-
+            ],
         }
     },
     methods:{
@@ -75,7 +74,14 @@ export default {
                     return true
                 }
              })
-             this.photo[index].photoShow=!this.photo[index].photoShow
+             this.photo[index].photoShow=true
+            //  this.photo[index].photoShow=!this.photo[index].photoShow
+            //只能选择一张照片的实现
+             for(let i=0;i<this.photo.length;i++){
+                if(this.photo[i]!==this.photo[index]){
+                    this.photo[i].photoShow=false
+                }
+             }
              const index1=Number(index)+1
              console.log('点击喜欢了第'+index1+'张照片')
 
