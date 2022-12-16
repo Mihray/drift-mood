@@ -12,13 +12,25 @@ const store=createStore({
                 {id:2,ip:'/card/background'},
                 {id:3,ip:'/card/send'},
             ],
-            cardnowIp:''
+            cardnowIp:'',
+            Moodcard:{id:0,
+                choisedStyle:'',
+                choisedShape:'',
+                choisedHeadPhoto:'',
+                choisedMood:'',
+                choisedMood_say:'',
+                choisedBackground:''
+            },
+            MoodcardGather:[
+            ]
         }
     },
     mutations:{
         Login(state){
-            console.log('姓名：'+state.name+',密码：'+state.password)
-            
+            console.log('姓名：'+state.name+',密码：'+state.password) 
+        },
+        MoodcardShow(state){
+            console.log(state.Moodcard)
         }
     }
 })

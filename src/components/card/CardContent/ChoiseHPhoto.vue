@@ -8,12 +8,12 @@
         </div>
         <span>选择头像形状</span>
         <div class="choiseShape">
-            <div @click="choiseShapeClick('圆角矩形')" :class="{choisedBox:choiseShapeShow1}">圆角矩形</div>
-            <div @click="choiseShapeClick('圆形')" :class="{choisedBox:choiseShapeShow2}">圆形</div>
+            <div @click="choiseShapeClick('圆形')" :class="{choisedBox:choiseShapeShow1}">圆形</div>
+            <div @click="choiseShapeClick('圆角矩形')" :class="{choisedBox:choiseShapeShow2}">圆角矩形</div>
         </div>
         <div class="choiseHeadPhoto" >选择一个头像吧~
             <div class="choiseHeadPhoto-box"> 
-                <div class="choiseHeadPhoto-Photo01" v-for="item in photo" :key="item" @click="choisePhotoClick(item.id)">
+                <div  v-for="item in photo" :key="item" @click="choisePhotoClick(item.id)" :style="{'border-radius':border_radius+'px'}">
                     <div class="likeimg" v-if="item.photoShow"></div>
                 </div>
             </div>
@@ -38,6 +38,7 @@ export default {
                 {id:3,name:'photo3',photoShow:false},
                 {id:4,name:'photo4',photoShow:false}
             ],
+            border_radius:38
         }
     },
     methods:{
@@ -57,16 +58,20 @@ export default {
                 this.choiseStyleShow2=false,
                 this.choiseStyleShow3=true
             }
+            this.$store.state.Moodcard.choisedStyle=style;
         },
         choiseShapeClick(Shape){
             if(Shape==='圆角矩形'){
-                this.choiseShapeShow1=true,
-                this.choiseShapeShow2=false
+                this.choiseShapeShow2=true,
+                this.choiseShapeShow1=false
+                this.border_radius=15
             }
             if(Shape==='圆形'){
-                this.choiseShapeShow1=false,
-                this.choiseShapeShow2=true
+                this.choiseShapeShow2=false,
+                this.choiseShapeShow1=true
+                this.border_radius=38
             }
+            this.$store.state.Moodcard.choisedShape=Shape
         },
         choisePhotoClick(number){
              const index=this.photo.findIndex(item=>{
@@ -84,7 +89,7 @@ export default {
              }
              const index1=Number(index)+1
              console.log('点击喜欢了第'+index1+'张照片')
-
+             this.$store.state.Moodcard.choisedHeadPhoto=this.photo[index]
         }
     }
 }
@@ -97,7 +102,7 @@ export default {
     padding-left: 14px;
     padding-right: 14px;
 }
-.choiseHPhoto span{
+.choiseHPhoto>span{
     font-size: 20px;
     font-family: PingFang SC, PingFang SC-Regular;
     font-weight: 400;
@@ -215,7 +220,7 @@ export default {
 .choiseHeadPhoto-box>div{
     width: 76px;
     height: 76px;
-    border-radius:38px;
+    /* border-radius:38px; */
     /* background-image: ; */
     background: #ff62a5;
     margin-left: 27px;

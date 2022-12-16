@@ -6,7 +6,9 @@ import ChoiseHPhoto from './components/card/CardContent/ChoiseHPhoto.vue'
 import ChoiseMood from './components/card/CardContent/ChoiseMood.vue'
 import ChoiseBackground from './components/card/CardContent/ChoiseBackground.vue'
 import SendMood from './components/card/CardContent/SendMood.vue'
-import ExploreVue from './components/explore/ExploreVue.vue'
+import ExploreHome from './components/explore/ExploreHome.vue'
+import FavoritesHome from './components/favorites/FavoritesHome.vue'
+import MyInfo from './components/myInfo/MyInfoHome.vue'
 
 const routes=[
     {path:'/login',component:LoginVue},
@@ -20,9 +22,9 @@ const routes=[
             {path:'/card/send',component:SendMood},
         ]
     },
-        {path:'/explore',component:ExploreVue},
-    //     {},
-    //     {},
+        {path:'/explore',component:ExploreHome},
+        {path:'/Favorites',component:FavoritesHome},
+        {path:'/MyInfo',component:MyInfo},
     ]
 }
 ]

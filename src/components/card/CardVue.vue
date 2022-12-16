@@ -7,8 +7,7 @@
 <script>
 
 import TopLine from './TopLine.vue'
-
-
+import axios from 'axios'
 
 export default {
     components:{
@@ -30,6 +29,12 @@ export default {
         nextStep(param){
             console.log('下一步点击成功了')
             this.$router.push(param)
+            axios.get('/mtapi/mihray/randomWeather')
+                 .then(res=>{
+                    console.log(res.data)
+                 })
+                 .catch(err=>{console.log(err)})
+            this.$store.commit('MoodcardShow')
         }
     }
 }

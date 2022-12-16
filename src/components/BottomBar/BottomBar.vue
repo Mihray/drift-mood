@@ -1,7 +1,9 @@
 <template>
     <div class="bottom-bar">
-        <button @click="bottomclick('/card')">卡片</button>
-        <button @click="bottomclick('/explore')">探索</button>
+        <div  class="card" @click="bottomclick('/card')"></div>
+        <div class="explore" @click="bottomclick('/explore')"></div>
+        <div class="Favorites" @click="bottomclick('/Favorites')"></div>
+        <div class="MyInfo" @click="bottomclick('/MyInfo')"></div>
     </div>
 </template>
 <script>
@@ -44,5 +46,26 @@ height: 87px;
 background: #f8f8f8;
 box-shadow: 0px -0.5px 0px 0px rgba(0,0,0,0.30); 
 backdrop-filter: blur(27.18px);
+display: flex;
+flex-wrap: nowrap;
+}
+.bottom-bar>div{
+    width: 38px;
+    height: 65px;
+    flex-grow: 1;
+    background-repeat:no-repeat;
+    background-position:center;
+}
+.card{
+    background-image: url(../../assets/2.生成心情页-选择头像/icons_tabbar_discover-active.png);
+}
+.explore{
+    background-image: url(../../assets/2.生成心情页-选择头像/Neaby.png);
+}
+.Favorites{
+    background-image: url(../../assets/2.生成心情页-选择头像/Favorite.png);
+}
+.MyInfo{
+    background-image: url(../../assets/2.生成心情页-选择头像/Profile.png);
 }
 </style>
