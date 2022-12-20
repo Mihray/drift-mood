@@ -16,8 +16,8 @@ const store=createStore({
             Moodcard:{id:0,
                 choisedStyle:'',
                 choisedShape:'',
-                choisedHeadPhoto:'',
-                choisedMood:'',
+                choisedHeadPhoto: {id:0,name:'photo0',photoShow:true},
+                choisedMood:{id:0,name:'开心',choised:true},
                 choisedMood_say:'',
                 choisedBackground:''
             },

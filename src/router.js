@@ -11,15 +11,26 @@ import FavoritesHome from './components/favorites/FavoritesHome.vue'
 import MyInfo from './components/myInfo/MyInfoHome.vue'
 
 const routes=[
-    {path:'/login',component:LoginVue},
-    {path:'/home',component:HomeVue,
+    {path:'/login',component:LoginVue,meta: { requireAuth: true, keepAlive: true }},
+    {path:'/home',component:HomeVue,meta: { requireAuth: true, keepAlive: true },
     children:[
-        {path:'/card',component:CardVue,
+        {path:'/card',component:CardVue,meta: { requireAuth: true, keepAlive: true },
         children:[
-            {path:'/card/hphoto',component:ChoiseHPhoto},
-            {path:'/card/mood',component:ChoiseMood},
-            {path:'/card/background',component:ChoiseBackground},
-            {path:'/card/send',component:SendMood},
+            {path:'/card/hphoto',
+            component:ChoiseHPhoto,
+            meta:{keepAlive: true }},
+
+            {path:'/card/mood',
+            component:ChoiseMood,
+            meta: {keepAlive: true }},
+
+            {path:'/card/background',
+            component:ChoiseBackground,
+            meta: {keepAlive: true }},
+
+            {path:'/card/send',
+            component:SendMood,
+            meta:{keepAlive: true }},
         ]
     },
         {path:'/explore',component:ExploreHome},

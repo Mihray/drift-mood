@@ -25,6 +25,15 @@ export default {
             message:''
         }
     },
+    created(){
+        this.Mood[(this.$store.state.Moodcard.choisedMood.id)].choised=true
+        for(let i=0;i<this.Mood.length;i++){
+                if(this.Mood[i]!==this.Mood[(this.$store.state.Moodcard.choisedMood.id)]){
+                    this.Mood[i].choised=false
+                }
+             }
+       this.message=this.$store.state.Moodcard.choisedMood_say
+    },
     methods:{
         choiseMoodClick(id){
             const index=this.Mood.findIndex(item=>{
@@ -38,7 +47,8 @@ export default {
                     this.Mood[i].choised=false
                 }
              }
-             this.$store.state.Moodcard.choisedMood=this.Mood[index].name
+            //  this.$store.state.Moodcard.choisedMood=this.Mood[index].name
+            this.$store.state.Moodcard.choisedMood=this.Mood[index]
         }
     },
     updated(){

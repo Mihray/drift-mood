@@ -12,7 +12,7 @@
             <div class="choiseBackground-preview-firstLine">
                 <div class="HeadPhoto"></div>
                 <span class="name">{{$store.state.name}}</span>
-                <span class="Mood">{{$store.state.Moodcard.choisedMood}}</span>
+                <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span>
             </div>
             <div class="choisedMood_say">{{$store.state.Moodcard.choisedMood_say}}</div>
         </div>

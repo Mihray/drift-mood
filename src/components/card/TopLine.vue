@@ -15,7 +15,15 @@
     </div>
     <div class="createMood-title">
         <div class="createMood-title-span">{{showSpan}}</div>
-        <div class="createMood-title-nextStep" @click="nextStep"> 
+
+        <div  v-if="lastStepShow" class="createMood-title-nextStep" @click="lastStep"> 
+            <div class="createMood-title-nextStep-span">上一步</div>
+            <div class="createMood-title-nextStep-box">
+                <div class="createMood-title-nextStep-box-inside-lastStep"></div>
+            </div>
+        </div>
+
+        <div v-if="nextStepShow" class="createMood-title-nextStep" @click="nextStep"> 
             <div class="createMood-title-nextStep-span">下一步</div>
             <div class="createMood-title-nextStep-box">
                 <div class="createMood-title-nextStep-box-inside"></div>
@@ -39,6 +47,12 @@ export default {
                 '完成啦，快寄出卡片吧~'
             ],
             showSpan:'开始生成心情卡片~',
+            boxSpan:[
+                '下一步',
+                '完成'
+            ],
+            lastStepShow:false,
+            nextStepShow:true
         }
     },
     methods:{
@@ -76,6 +90,7 @@ export default {
             // }
 
             if(this.$store.state.cardnowIp==='/card/hphoto'){
+                this.lastStepShow=true
                 this.$emit('nextStep','/card/mood')
                 this.showSpan=this.span[1]
                 this.backgRed01=false,
@@ -95,12 +110,51 @@ export default {
             }
             if(this.$store.state.cardnowIp==='/card/background'){
                 this.$emit('nextStep','/card/send')
+                this.nextStepShow=false
                 this.showSpan=this.span[3]
                 this.backgRed01=false,
                 this.backgRed02=false,
                 this.backgRed03=false,
                 this.backgRed04=true
                 console.log('寄出去页')
+            }
+        },
+        lastStep(){
+            if(this.$store.state.cardnowIp==='/card/hphoto'){
+                this.nextStepShow=true
+            }
+            if(this.$store.state.cardnowIp==='/card/mood'){
+                this.lastStepShow=false
+                this.nextStepShow=true
+                this.$emit('lastStep','/card/hphoto')
+                this.showSpan='开始生成心情卡片~'
+                this.backgRed01=true,
+                this.backgRed02=false,
+                this.backgRed03=false,
+                this.backgRed04=false
+                console.log('选择头像页')
+            }
+            if(this.$store.state.cardnowIp==='/card/background'){
+                this.lastStepShow=true
+                this.nextStepShow=true
+                this.$emit('lastStep','/card/mood')
+                this.showSpan=this.span[1]
+                this.backgRed01=false,
+                this.backgRed02=true,
+                this.backgRed03=false,
+                this.backgRed04=false
+                console.log('选择心情页')
+            }
+            if(this.$store.state.cardnowIp==='/card/send'){
+                this.nextStepShow=true
+                this.lastStepShow=true
+                this.$emit('lastStep','/card/background')
+                this.showSpan=this.span[3]
+                this.backgRed01=false,
+                this.backgRed02=false,
+                this.backgRed03=true,
+                this.backgRed04=false
+                console.log('选择背景页')
             }
         }
     }
@@ -180,5 +234,14 @@ export default {
     border-style: solid;
     transform: matrix(-0.71, 0.71, 0.71, 0.71, 0, 0);
     margin-left: -6px;
+}
+.createMood-title-nextStep-box-inside-lastStep{
+    width: 11px;
+    height: 11px;
+    border-width:0 0 5px 5px ;
+    border-color:white;
+    border-style: solid;
+    transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+    margin-left: 6px;
 }
 </style>

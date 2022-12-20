@@ -41,8 +41,22 @@ export default {
             border_radius:38
         }
     },
+    //上一步保存已经填好的数据
+    created(){
+        this.choiseStyleClick(this.$store.state.Moodcard.choisedStyle)
+        this.choiseShapeClick(this.$store.state.Moodcard.choisedShape)
+        console.log(this.$store.state.Moodcard.choisedHeadPhoto.id)
+        // this.$store.state.Moodcard.choisedHeadPhoto.photoShow=true;
+        this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id)].photoShow=true;
+        for(let i=0;i<this.photo.length;i++){
+                if(this.photo[i]!==this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id)]){
+                    this.photo[i].photoShow=false
+                }
+             }
+    },
     methods:{
         choiseStyleClick(style){
+            console.log('choiseStyleClick');
             if(style==='卡通'){
                 this.choiseStyleShow1=true,
                 this.choiseStyleShow2=false,
@@ -58,6 +72,7 @@ export default {
                 this.choiseStyleShow2=false,
                 this.choiseStyleShow3=true
             }
+            console.log('执行');
             this.$store.state.Moodcard.choisedStyle=style;
         },
         choiseShapeClick(Shape){

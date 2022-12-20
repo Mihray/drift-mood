@@ -1,7 +1,7 @@
 <template>
     <div class="BigCardBox">
-        <top-line @nextStep="nextStep"></top-line>
-        <router-view></router-view>
+        <top-line @nextStep="nextStep" @lastStep="lastStep"></top-line>
+    <router-view></router-view>
     </div>
 </template>
 <script>
@@ -35,6 +35,10 @@ export default {
                  })
                  .catch(err=>{console.log(err)})
             this.$store.commit('MoodcardShow')
+        },
+        lastStep(param2){
+            console.log('上一步点击成功')
+            this.$router.push(param2)
         }
     }
 }
