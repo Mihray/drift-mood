@@ -22,7 +22,8 @@ const store=createStore({
                 choisedBackground:''
             },
             MoodcardGather:[
-            ]
+            ],
+            date:''
         }
     },
     mutations:{
@@ -31,6 +32,25 @@ const store=createStore({
         },
         MoodcardShow(state){
             console.log(state.Moodcard)
+        },
+        getDate(state){
+            const adate=new Date()
+            // const year=adate.getFullYear()
+            const Month=adate.getMonth()+1
+            // const Minutes=
+            // console.log(Minutes)
+            function Minutes(){
+                if(Number(adate.getMinutes())<10){
+                console.log('黑恶后')
+                return '0'+adate.getMinutes()
+            }else{
+                console.log('黑')
+                return adate.getMinutes()
+            }}
+            const MinutesA=Minutes()
+            console.log(MinutesA)
+            state.date=(adate.getFullYear()+'-'+Month+'-'+adate.getDate()+' '+adate.getHours()+':'+MinutesA)
+            console.log('时间：'+state.date)
         }
     }
 })

@@ -15,6 +15,7 @@
                 <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span>
             </div>
             <div class="choisedMood_say">{{$store.state.Moodcard.choisedMood_say}}</div>
+            <div class="date">{{BackgDate}}</div>
         </div>
     </div>
 </template>
@@ -23,8 +24,18 @@
 export default {
     data(){
         return{
-            backgroundImage: require('../../../assets/background01.jpg')
+            backgroundImage: require('../../../assets/background01.jpg'),
+            BackgDate:''
         }
+    },
+    mounted(){
+        // const adate=new Date()
+        // // const year=adate.getFullYear()
+        // const Month=adate.getMonth()+1
+        // this.date=(adate.getFullYear()+'-'+Month+'-'+adate.getDate()+' '+adate.getHours()+':'+adate.getMinutes())
+        // console.log('时间：'+this.date)
+        this.$store.commit('getDate')
+        this.BackgDate=this.$store.state.date
     },
     methods:{
         changeBackground(){
@@ -112,7 +123,7 @@ export default {
 }
 .choisedMood_say{
     width: 300px;
-    height: 145px;
+    height: 135px;
     font-size: 20px;
     font-family: PingFang SC, PingFang SC-Regular;
     font-weight: 400;
@@ -120,5 +131,16 @@ export default {
     color: #000000;
     letter-spacing: 1px;
     margin-top: 10px;
+}
+.date{
+    width: 150px;
+    height: 20px;
+    margin-left: 170px;
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Semibold;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 16px;
+    letter-spacing: 0.08px;
 }
 </style>

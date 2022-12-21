@@ -23,8 +23,8 @@
             </div>
         </div>
 
-        <div v-if="nextStepShow" class="createMood-title-nextStep" @click="nextStep"> 
-            <div class="createMood-title-nextStep-span">下一步</div>
+        <div  class="createMood-title-nextStep" @click="nextStep"> 
+            <div class="createMood-title-nextStep-span">{{nextSpanText}}</div>
             <div class="createMood-title-nextStep-box">
                 <div class="createMood-title-nextStep-box-inside"></div>
             </div>
@@ -47,12 +47,13 @@ export default {
                 '完成啦，快寄出卡片吧~'
             ],
             showSpan:'开始生成心情卡片~',
-            boxSpan:[
+            nextSpan:[
                 '下一步',
                 '完成'
             ],
+            nextSpanText:'下一步',
             lastStepShow:false,
-            nextStepShow:true
+            // nextStepShow:true
         }
     },
     methods:{
@@ -112,6 +113,7 @@ export default {
                 this.$emit('nextStep','/card/send')
                 this.nextStepShow=false
                 this.showSpan=this.span[3]
+                this.nextSpanText=this.nextSpan[1]
                 this.backgRed01=false,
                 this.backgRed02=false,
                 this.backgRed03=false,
@@ -126,6 +128,7 @@ export default {
             if(this.$store.state.cardnowIp==='/card/mood'){
                 this.lastStepShow=false
                 this.nextStepShow=true
+                this.nextSpanText=this.nextSpan[0]
                 this.$emit('lastStep','/card/hphoto')
                 this.showSpan='开始生成心情卡片~'
                 this.backgRed01=true,
@@ -135,6 +138,7 @@ export default {
                 console.log('选择头像页')
             }
             if(this.$store.state.cardnowIp==='/card/background'){
+                this.nextSpanText=this.nextSpan[0]
                 this.lastStepShow=true
                 this.nextStepShow=true
                 this.$emit('lastStep','/card/mood')
@@ -146,6 +150,7 @@ export default {
                 console.log('选择心情页')
             }
             if(this.$store.state.cardnowIp==='/card/send'){
+                this.nextSpanText=this.nextSpan[0]
                 this.nextStepShow=true
                 this.lastStepShow=true
                 this.$emit('lastStep','/card/background')
