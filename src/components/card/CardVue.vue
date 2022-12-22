@@ -47,5 +47,9 @@ export default {
 .BigCardBox{
     padding-left: 11px;
     padding-right: 11px;
+    /* width: 390px; */
+    height: calc(100vh - 87px);
+    overflow: auto;
+    padding-bottom: 10px;
 }
 </style>

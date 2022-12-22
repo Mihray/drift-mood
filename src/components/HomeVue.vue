@@ -25,10 +25,10 @@ export default {
 <style scoped>
 .home{
     width: 390px;
-    height: 844px;
+    height: 100vh;
     display: flex;
-    flex-direction:column;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    /* justify-content: space-between; */
 }
 </style>

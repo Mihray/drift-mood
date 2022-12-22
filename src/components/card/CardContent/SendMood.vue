@@ -10,11 +10,11 @@
             <div class="date">{{SendMoodDate}}</div>
         </div>
         <div class="sendMood-img">
-            <div class="seve">
+            <div class="seve" @click="MySave">
                 <div></div>
                 <span>私人保存</span>
             </div>
-            <div class="send">
+            <div class="send" @click="sendCard">
                 <div></div>
                 <span>去漂流</span>
             </div>
@@ -26,7 +26,7 @@
             </div>
             <div class="player">
                 <span>Purple Passion</span>
-                <img src="../../../assets/5.生成心情页-寄出卡片/Video.png">
+                <img src="../../../assets/5.生成心情页-寄出卡片/Video.png" @click="play">
             </div>
         </div>
     </div>
@@ -42,6 +42,17 @@ export default {
         this.$store.commit('getDate')
         this.SendMoodDate=this.$store.state.date
     },
+    methods:{
+        MySave(){
+            console.log('保存')
+        },
+        sendCard(){
+            console.log('寄出');
+        },
+        play(){
+            console.log('播放');
+        }
+    }
 }
 </script>
 <style scoped>
