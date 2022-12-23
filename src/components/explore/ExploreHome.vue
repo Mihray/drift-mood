@@ -8,23 +8,18 @@
          <div class="exploreTime">
             <span>航行事件</span>
             <div>
-                <div class="time">今天</div>
-                <div class="time">全部时间</div>
+                <div class="time" v-for="item in Exploretime" :key="item" @click="ExploretimechoiseClick(item.id)"
+                    :class="{choised:item.choised}">{{item.name}}</div>
             </div>
          </div>
          <div class="exploreMood">
             <span>目的地码头</span>
             <div> 
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
-                <div class="exploreMood-Mood">开心</div>
+                <div class="exploreMood-Mood" v-for="item in ExploreMood" :key="item" @click="ExploreMoodchoiseClick(item.id)"
+                :class="{choised:item.choised}">{{item.name}}</div>
             </div>
          </div>
-         <button class="SetSail">启航</button>
+         <button class="SetSail" @click="SetSail">启航</button>
          <div class="MoodSail">
             <div class="MoodBox">
                 <div class="choiseBackground-preview-firstLine">
@@ -48,14 +43,75 @@
                     <span class="Mood">Mood</span>
                 </div>
                 <div class="choisedMood_say">心情物语</div>
-                <div class="date">时间</div>
+                <div class="choiseBackground-preview-lastLine"> 
+                    <div class="favorite">收藏
+                        <img src="../../assets/切图和组件样式等/探索页-收藏icon.png">
+                    </div>
+                    <div class="date">时间</div>
+                </div>
             </div>
          </div>
     </div>
 </template>
 <script>
+
 export default {
-    
+    data(){
+        return{
+            Exploretime:[
+                {id:0,name:'今天',choised:true},
+                {id:1,name:'昨天',choised:false},
+                {id:2,name:'全部时间',choised:false},
+            ],
+            ExploreMood:[
+                {id:0,name:'开心',choised:true},
+                {id:1,name:'得意',choised:false},
+                {id:2,name:'平静',choised:false},
+                {id:3,name:'愤怒',choised:false},
+                {id:4,name:'烦躁',choised:false},
+                {id:5,name:'伤心',choised:false}
+            ],
+        }
+    },
+    methods:{
+        ExploretimechoiseClick(id){
+            // console.log( 'id:'+id)
+            const index=this.Exploretime.findIndex(item=>{
+            if(item.id===id){
+                return true
+            }
+        })
+        this.Exploretime[index].choised=true
+            for(let i=0;i<this.Exploretime.length;i++){
+                    if(this.Exploretime[i]!==this.Exploretime[index]){
+                        this.Exploretime[i].choised=false
+                    }
+                }
+                //也可以用下面的方法，代码比肩简洁
+            // this.Exploretime[Number(id)].choised=true
+            // for(let i=0;i<this.Exploretime.length;i++){
+            //         if(this.Exploretime[i]!==this.Exploretime[Number(id)]){
+            //             this.Exploretime[i].choised=false
+            //         }
+            //     }
+        },
+        ExploreMoodchoiseClick(id){
+            const index=this.ExploreMood.findIndex(item=>{
+            if(item.id===id){
+                return true
+            }
+        })
+            this.ExploreMood[index].choised=true
+            for(let i=0;i<this.ExploreMood.length;i++){
+                    if(this.ExploreMood[i]!==this.ExploreMood[index]){
+                        this.ExploreMood[i].choised=false
+                    }
+                }
+        },
+        SetSail(){
+            console.log('启航啦')
+        }
+    }
 }
 </script>
 <style scoped>
@@ -118,11 +174,18 @@ export default {
     height: 32px;
     border: 1px solid #eeeeee;
     border-radius: 8px;
-    margin-left: 20px;
+    margin-left: 30px;
     margin-top: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 16px;
+    letter-spacing: 0.06px;
     }
 .exploreMood{
       /* margin-top: 20px; */
@@ -148,11 +211,18 @@ export default {
     height: 32px;
     border: 1px solid #eeeeee;
     border-radius: 8px;
-    margin-left: 20px;
+    margin-left: 30px;
     margin-top: 15px;
     display: flex;
     justify-content: center;
     align-items: center;
+
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 16px;
+    letter-spacing: 0.06px;
     }
 .SetSail{
         margin-top: 20px;
@@ -242,7 +312,7 @@ export default {
     width: 343px;
 }
 .favorite{
-    margin-left: 10px;
+    margin-left: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -266,5 +336,44 @@ export default {
     color: #ffffff;
     line-height: 16px;
     letter-spacing: 0.08px;
+}
+.exploreTime .choised{
+    width: 73px;
+    height: 32px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    margin-left: 30px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    color:#ff689a;
+    line-height: 16px;
+    letter-spacing: 0.06px;
+}
+
+.exploreMood .choised{
+    width: 73px;
+    height: 32px;
+    border: 1px solid #eeeeee;
+    border-radius: 8px;
+    margin-left: 30px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    color:#ff689a;
+    line-height: 16px;
+    letter-spacing: 0.06px;
 }
 </style>
