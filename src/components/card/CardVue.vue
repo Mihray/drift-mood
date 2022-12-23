@@ -50,6 +50,6 @@ export default {
     /* width: 390px; */
     height: calc(100vh - 87px);
     overflow: auto;
-    padding-bottom: 10px;
+    padding-bottom: 120px;
 }
 </style>
