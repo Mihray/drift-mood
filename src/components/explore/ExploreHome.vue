@@ -33,7 +33,12 @@
                     <span class="Mood">Mood</span>
                 </div>
                 <div class="choisedMood_say">心情物语</div>
-                <div class="date">时间</div>
+                <div class="choiseBackground-preview-lastLine"> 
+                    <div class="favorite">收藏
+                        <img src="../../assets/切图和组件样式等/探索页-收藏icon.png">
+                    </div>
+                    <div class="date">时间</div>
+                </div>
             </div>
 
             <div class="MoodBox">
@@ -221,7 +226,7 @@ export default {
 }
 .choisedMood_say{
     width: 300px;
-    height: 135px;
+    height: 100px;
     font-size: 20px;
     font-family: PingFang SC, PingFang SC-Regular;
     font-weight: 400;
@@ -230,10 +235,31 @@ export default {
     letter-spacing: 1px;
     margin-top: 10px;
 }
+.choiseBackground-preview-lastLine{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 343px;
+}
+.favorite{
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 73px;
+    height: 24px;
+    background: #3c8c8c;
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+}
+.favorite img{
+    width: 20px;
+    height: 20px;
+    /* border: 1px solid #cacaca; */
+}
 .date{
     width: 150px;
     height: 20px;
-    margin-left: 170px;
     font-size: 16px;
     font-family: PingFang SC, PingFang SC-Semibold;
     font-weight: 600;
