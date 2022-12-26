@@ -116,11 +116,12 @@ export default {
 </script>
 <style scoped>
 .explore{
+    box-sizing: border-box;
     /* padding-left: 11px;
     padding-right: 11px; */
     height: calc(100vh - 87px);
     overflow: auto;
-    padding-bottom: 100px;
+    padding-bottom: 10px;
     background: linear-gradient(204deg,rgba(255,137,96,0.85) 0%, rgba(255,98,165,0.85) 100%);
 }
 .topImg{
