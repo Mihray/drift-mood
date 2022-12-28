@@ -121,7 +121,7 @@ export default {
     padding-right: 11px; */
     height: calc(100vh - 87px);
     overflow: auto;
-    padding-bottom: 10px;
+    padding-bottom: 20px;
     background: linear-gradient(204deg,rgba(255,137,96,0.85) 0%, rgba(255,98,165,0.85) 100%);
 }
 .topImg{

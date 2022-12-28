@@ -41,7 +41,7 @@ export default {
     box-sizing: border-box;
     height: calc(100vh - 87px);
     overflow: auto;
-    padding-bottom: 10px;
+    /* padding-bottom: 20px; */
     background: linear-gradient( #9648f2, #ff61a3  );
     /* background-image: url(../../assets/切图和组件样式等/收藏页顶部横幅.png); */
 }
@@ -53,6 +53,7 @@ export default {
     background-image: url(../../assets/切图和组件样式等/收藏页顶部横幅.png);
     background-repeat: no-repeat;
     background-position: top;
+    padding-bottom: 20px;
 }
 .favorites-title{
     margin-top: 40px;
