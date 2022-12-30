@@ -10,7 +10,7 @@
         <span>心情卡片预览</span>
         <div class="choiseBackground-preview">
             <div class="choiseBackground-preview-firstLine">
-                <div class="HeadPhoto"></div>
+                <div :class="{HeadPhoto1: classValue[0],HeadPhoto2:classValue[1]}"></div>
                 <span class="name">{{$store.state.name}}</span>
                 <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span>
             </div>
@@ -25,7 +25,8 @@ export default {
     data(){
         return{
             backgroundImage: require('../../../assets/background01.jpg'),
-            BackgDate:''
+            BackgDate:'',
+            classValue:[false,true]
         }
     },
     mounted(){
@@ -36,6 +37,14 @@ export default {
         // console.log('时间：'+this.date)
         this.$store.commit('getDate')
         this.BackgDate=this.$store.state.date
+        if(this.$store.state.Moodcard.choisedShape==='圆形'){
+            this.classValue[1]=true;
+            this.classValue[0]=false;
+        }
+        if(this.$store.state.Moodcard.choisedShape==='圆角矩形'){
+            this.classValue[0]=true;
+            this.classValue[1]=false;
+        }
     },
     methods:{
         changeBackground(){
@@ -90,16 +99,23 @@ export default {
     align-items: center;
 }
 .choiseBackground-preview-firstLine{
-    margin-top: 10px;
+    margin-top: 20px;
     display: flex;
     justify-content:space-evenly;
     align-items:center;
     width: 343px;
 }
-.HeadPhoto{
+.HeadPhoto1{
     width: 45px;
     height: 45px;
-    /* border-radius:38px; */
+    border-radius:10px;
+    /* background-image: ; */
+    background: #ff62a5;
+}
+.HeadPhoto2{
+    width: 45px;
+    height: 45px;
+    border-radius:50%;
     /* background-image: ; */
     background: #ff62a5;
 }
@@ -111,6 +127,7 @@ export default {
     color: #000000;
     line-height: 32px;
     letter-spacing: 0.16px;
+    margin-right: 40px;
 }
 .Mood{
     font-size: 32px;

@@ -167,9 +167,9 @@ export default {
 </script>
 <style scoped>
 .top-line{
-    /* padding-left: 7px;
-    padding-right: 7px; */
-    width: 373px;
+    padding-left: 5px;
+    /* padding-right: 7px; */
+    width: 390px;
     height: 17px;
     display: flex;
     flex-wrap:nowrap;
@@ -195,6 +195,8 @@ export default {
     display: flex;
     justify-content: space-between;
     margin-top: 65px;
+    padding-left: 14px;
+    padding-right: 14px;
 }
 .createMood-title-span{
     width: 175px;

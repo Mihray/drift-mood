@@ -2,7 +2,7 @@
     <div class="sendMood">
         <div class="sendMood-Moodcard"> 
             <div class="choiseBackground-preview-firstLine">
-                <div class="HeadPhoto"></div>
+                <div  :class="{HeadPhoto1:classHeadPhoValue[0],HeadPhoto2: classHeadPhoValue[1]}"></div>
                 <span class="name">{{$store.state.name}}</span>
                 <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span>
             </div>
@@ -35,12 +35,22 @@
 export default {
     data(){
         return{
-            SendMoodDate:''
+            SendMoodDate:'',
+            classHeadPhoValue:[false,true]
           }
     },
     created(){
         this.$store.commit('getDate')
-        this.SendMoodDate=this.$store.state.date
+        this.SendMoodDate=this.$store.state.date;
+        if(this.$store.state.Moodcard.choisedShape==='圆形'){
+            this.classHeadPhoValue[1]=true;
+            this.classHeadPhoValue[0]=false;
+
+        }
+        if(this.$store.state.Moodcard.choisedShape==='圆角矩形'){
+            this.classHeadPhoValue[0]=true;
+            this.classHeadPhoValue[1]=false;
+        }
     },
     methods:{
         MySave(){
@@ -81,10 +91,17 @@ export default {
     align-items:center;
     width: 343px;
 }
-.HeadPhoto{
+.HeadPhoto1{
     width: 45px;
     height: 45px;
-    /* border-radius:38px; */
+    border-radius:10px;
+    /* background-image: ; */
+    background: #ff62a5;
+}
+.HeadPhoto2{
+    width: 45px;
+    height: 45px;
+    border-radius:50%;
     /* background-image: ; */
     background: #ff62a5;
 }
