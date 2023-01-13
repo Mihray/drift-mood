@@ -169,7 +169,7 @@ export default {
 .top-line{
     padding-left: 5px;
     /* padding-right: 7px; */
-    width: 390px;
+    /* width: 390px; */
     height: 17px;
     display: flex;
     flex-wrap:nowrap;

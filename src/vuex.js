@@ -16,12 +16,22 @@ const store=createStore({
             Moodcard:{id:0,
                 choisedStyle:'',
                 choisedShape:'',
-                choisedHeadPhoto: {id:0,name:'photo0',photoShow:true},
-                choisedMood:{id:0,name:'开心',choised:true},
+                choisedHPShapeCircle:false,
+                choisedHPShapeSquare:false,
+                // choisedHeadPhoto: {id:0,name:'photo0',photoShow:true},
+                // choisedMood:{id:0,name:'开心',choised:true},
+                 choisedHeadPhoto: {id:0,name:'',photoShow:''},
+                choisedMood:{id:0,name:'',choised:''},
                 choisedMood_say:'',
-                choisedBackground:''
+                choisedBackground:'',
+                Mooddate:''
             },
-            MoodcardGather:[
+            PrivateMoodcardGather:[
+            ],
+            publicMoodcardGather:[
+            ],
+            allMoodcardGather:[
+
             ],
             date:''
         }
@@ -51,6 +61,13 @@ const store=createStore({
             console.log(MinutesA)
             state.date=(adate.getFullYear()+'-'+Month+'-'+adate.getDate()+' '+adate.getHours()+':'+MinutesA)
             console.log('时间：'+state.date)
+        },
+        pushMood(state){
+            console.log('pushMood');
+            state.allMoodcardGather.push(state.Moodcard)
+            console.log('执行push之后');
+            console.log('moodcard:', state.Moodcard);
+            console.log('all:', state.allMoodcardGather);
         }
     }
 })

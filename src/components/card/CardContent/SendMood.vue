@@ -42,6 +42,7 @@ export default {
     created(){
         this.$store.commit('getDate')
         this.SendMoodDate=this.$store.state.date;
+        this.$store.state.Moodcard.Mooddate=this.SendMoodDate
         if(this.$store.state.Moodcard.choisedShape==='圆形'){
             this.classHeadPhoValue[1]=true;
             this.classHeadPhoValue[0]=false;
@@ -55,9 +56,25 @@ export default {
     methods:{
         MySave(){
             console.log('保存')
+            this.$store.commit('pushMood')
+            // this.$store.state.PrivateMoodcardGather.push(this.$store.state.Moodcard)
+            // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
+            console.log(this.$store.state.PrivateMoodcardGather)
+            this.$router.push('/card/hphoto')
+            // this.$store.state.Moodcard.choisedStyle='',
+            // this.$store.state.Moodcard.choisedShape=''
+
+            console.log('更新',this.$store.state.allMoodcardGather)
         },
         sendCard(){
             console.log('寄出');
+            // this.$store.state.publicMoodcardGather.push(this.$store.state.Moodcard)
+            // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
+            console.log(this.$store.state.publicMoodcardGather)
+            this.$router.push('/card/hphoto')
+            // this.$store.state.Moodcard.choisedStyle='',
+            // this.$store.state.Moodcard.choisedShape='',
+            // this.$store.state.Moodcard.choisedMood_say=''
         },
         play(){
             console.log('播放');

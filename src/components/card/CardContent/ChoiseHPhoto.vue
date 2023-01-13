@@ -24,15 +24,15 @@
 export default {
     data(){
         return{
-            choiseStyleShow1:true,
+            choiseStyleShow1:false,
             choiseStyleShow2:false,
             choiseStyleShow3:false,
 
-            choiseShapeShow1:true,
+            choiseShapeShow1:false,
             choiseShapeShow2:false,
 
             photo:[
-                {id:0,name:'photo0',photoShow:true},
+                {id:0,name:'photo0',photoShow:false},
                 {id:1,name:'photo1',photoShow:false},
                 {id:2,name:'photo2',photoShow:false},
                 {id:3,name:'photo3',photoShow:false},
@@ -80,11 +80,15 @@ export default {
                 this.choiseShapeShow2=true,
                 this.choiseShapeShow1=false
                 this.border_radius=15
+                this.$store.state.Moodcard.choisedHPShapeCircle=false
+                this.$store.state.Moodcard.choisedHPShapeSquare=true
             }
             if(Shape==='圆形'){
                 this.choiseShapeShow2=false,
                 this.choiseShapeShow1=true
                 this.border_radius=38
+                this.$store.state.Moodcard.choisedHPShapeCircle=true
+                this.$store.state.Moodcard.choisedHPShapeSquare=false
             }
             this.$store.state.Moodcard.choisedShape=Shape
         },

@@ -37,33 +37,48 @@
             </div>
         </div>
         <div class="history-Mood"> 
-                <div class="history-Mood-group"> 
+                <div class="history-Mood-group" v-for="item in $store.state.allMoodcardGather" :key="item"> 
+                    <div class="history-Mood-group-firstLine"> 
+                        <div class="history-Mood-group-firstLine-circle"></div>
+                        <span class="history-Mood-group-firstLine-date">{{item.Mooddate}}</span>
+                    </div>
+                    <div class="history-Mood-group-lineBox"> 
+                        <div class="history-Mood-group-lineBox-MoodCard">
+                            <div class="history-Mood-group-lineBox-MoodCard-firstLine">
+                                <div  :class="{HeadPhoto1:item.choisedHPShapeSquare,HeadPhoto2:item.choisedHPShapeCircle}"></div>
+                                <span class="name">{{$store.state.name}}</span>
+                                <span class="Mood">{{item.Mooddate.name}}</span>
+                            </div>
+                            <div class="history-Mood-group-lineBox-MoodCard_say">{{item.choisedMood_say}}</div>
+                            <div class="date">{{item.Mooddate}}</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div class="history-Mood-group"> 
                     <div class="history-Mood-group-firstLine"> 
                         <div class="history-Mood-group-firstLine-circle"></div>
                         <span class="history-Mood-group-firstLine-date">2022年12月27日</span>
                     </div>
                     <div class="history-Mood-group-lineBox"> 
                         <div class="history-Mood-group-lineBox-MoodCard"></div>
-                    </div>
-                </div>
-                <div class="history-Mood-group"> 
-                    <div class="history-Mood-group-firstLine"> 
-                        <div class="history-Mood-group-firstLine-circle"></div>
-                        <span class="history-Mood-group-firstLine-date">2022年12月27日</span>
-                    </div>
-                    <div class="history-Mood-group-lineBox"> 
-                        <div class="history-Mood-group-lineBox-MoodCard"></div>
                         <div class="history-Mood-group-lineBox-MoodCard"></div>
                         <div class="history-Mood-group-lineBox-MoodCard"></div>
                         <div class="history-Mood-group-lineBox-MoodCard"></div>
                     </div>
-                </div>
+                </div> -->
         </div>
     </div>
 </template>
 <script>
 export default {
-    
+    data(){
+        return{
+            // classHeadPhoValue:[false,true]
+        }
+    },
+    updated(){
+        console.log('更新',this.$store.state.allMoodcardGather)
+    }
 }
 </script>
 <style scoped>
@@ -243,5 +258,67 @@ export default {
     border-radius: 21px;
     background-color: #5b1b36;
     margin-top: 10px;
+}
+
+.history-Mood-group-lineBox-MoodCard-firstLine{
+    margin-top: 10px;
+    display: flex;
+    justify-content:space-evenly;
+    align-items:center;
+    width: 343px;
+}
+.HeadPhoto1{
+    width: 45px;
+    height: 45px;
+    border-radius:10px;
+    /* background-image: ; */
+    background: #ff62a5;
+}
+.HeadPhoto2{
+    width: 45px;
+    height: 45px;
+    border-radius:50%;
+    /* background-image: ; */
+    background: #ff62a5;
+}
+.name{
+    font-size: 32px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    text-align: LEFT;
+    color: #000000;
+    line-height: 32px;
+    letter-spacing: 0.16px;
+}
+.Mood{
+    font-size: 32px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    text-align: LEFT;
+    color: #000000;
+    line-height: 32px;
+    letter-spacing: 0.16px;
+}
+.history-Mood-group-lineBox-MoodCard_say{
+    width: 300px;
+    height: 135px;
+    font-size: 20px;
+    font-family: PingFang SC, PingFang SC-Regular;
+    font-weight: 400;
+    text-align: LEFT;
+    color: #000000;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+.date{
+    width: 150px;
+    height: 20px;
+    margin-left: 170px;
+    font-size: 16px;
+    font-family: PingFang SC, PingFang SC-Semibold;
+    font-weight: 600;
+    color: #ffffff;
+    line-height: 16px;
+    letter-spacing: 0.08px;
 }
 </style>
