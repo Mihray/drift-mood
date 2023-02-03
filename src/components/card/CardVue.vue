@@ -15,12 +15,29 @@ export default {
     },
     data(){
         return{
-            
+            // avatarStyle:[], 
         }
     },
     mounted(){
-    console.log('Card Mounted');
-    this.$router.push('/card/hphoto')
+    const that = this;
+    axios.get('/card/query', {
+        headers: { token: localStorage.getItem('token')},
+    }).then(res => {
+        that.$store.commit('initCardPage', res.data);
+
+        console.log('Card Mounted');
+        that.$router.push('/card/hphoto')
+
+        // that.avatarStyle=that.$store.state.cardPage.avatarStyle
+        // console.log(that.avatarStyle)
+        // console.log(typeof(that.avatarStyle))
+    })
+    // 页面跳转需要在请求结束后，即then方法中。同时注意匿名函数（箭头函数）中this指向问题，需要用作用域外的this代替
+    // console.log('Card Mounted');
+    // this.$router.push('/card/hphoto')
+
+    // this.avatarStyle=this.$store.state.cardPage.avatarStyle
+    // console.log(this.avatarStyle)
   },
   updated(){
     this.$store.state.cardnowIp=this.$route.path

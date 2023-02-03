@@ -33,7 +33,9 @@ const store=createStore({
             allMoodcardGather:[
 
             ],
-            date:''
+            date:'',
+            cardPage: undefined,
+            avatarStyle:[],
         }
     },
     mutations:{
@@ -68,7 +70,15 @@ const store=createStore({
             console.log('执行push之后');
             console.log('moodcard:', state.Moodcard);
             console.log('all:', state.allMoodcardGather);
-        }
+        },
+        initCardPage(state, params) {
+            state.cardPage = params;
+            console.log(state.cardPage)
+
+            state.avatarStyle=state.cardPage.avatarStyle
+            console.log(state.avatarStyle)
+            console.log(typeof(state.avatarStyle))
+        },
     }
 })
 export default store

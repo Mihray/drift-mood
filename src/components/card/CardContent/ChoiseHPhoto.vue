@@ -2,9 +2,9 @@
     <div class="choiseHPhoto">
         <span>选择头像风格</span>
         <div class="choiseStyle">
-            <div @click="choiseStyleClick('卡通')" :class="{choisedBox:choiseStyleShow1}">卡通</div>
-            <div @click="choiseStyleClick('萌宠')" :class="{choisedBox:choiseStyleShow2}">萌宠</div>
-            <div @click="choiseStyleClick('复古')" :class="{choisedBox:choiseStyleShow3}">复古</div>
+            <div v-for="item in $store.state.avatarStyle" :key="item" @click="choiseStyleClick(item.id)" :class="{choisedBox:choiseStyleShow1}">{{ item.name }}</div>
+            <!-- <div @click="choiseStyleClick('萌宠')" :class="{choisedBox:choiseStyleShow2}">萌宠</div>
+            <div @click="choiseStyleClick('复古')" :class="{choisedBox:choiseStyleShow3}">复古</div> -->
         </div>
         <span>选择头像形状</span>
         <div class="choiseShape">
@@ -21,12 +21,21 @@
     </div>
 </template>
 <script>
+// import axios from 'axios'
 export default {
     data(){
         return{
-            choiseStyleShow1:false,
-            choiseStyleShow2:false,
-            choiseStyleShow3:false,
+            avatarStyle:[],
+            choiseStyle:[
+               {id:0,name:'',choiseStyleShow:false},
+               {id:1,name:'',choiseStyleShow:false},
+               {id:2,name:'',choiseStyleShow:false}
+            ],
+
+            // choiseStyleShow1:false,
+            // choiseStyleShow2:false,
+            // choiseStyleShow3:false,
+
 
             choiseShapeShow1:false,
             choiseShapeShow2:false,
@@ -55,26 +64,34 @@ export default {
              }
     },
     methods:{
-        choiseStyleClick(style){
-            console.log('choiseStyleClick');
-            if(style==='卡通'){
-                this.choiseStyleShow1=true,
-                this.choiseStyleShow2=false,
-                this.choiseStyleShow3=false
-            }
-            if(style==='萌宠'){
-                this.choiseStyleShow1=false,
-                this.choiseStyleShow2=true,
-                this.choiseStyleShow3=false
-            }
-            if(style==='复古'){
-                this.choiseStyleShow1=false,
-                this.choiseStyleShow2=false,
-                this.choiseStyleShow3=true
-            }
-            console.log('执行');
-            this.$store.state.Moodcard.choisedStyle=style;
+        choiseStyleClick(id){
+            const index=this.$store.state.avatarStyle.findIndex(item=>{
+                if(item.id===id){
+                    return true
+                }
+            })
+            this.$store.state.avatarStyle[index].
         },
+        // choiseStyleClick(style){
+        //     console.log('choiseStyleClick');
+        //     if(style==='卡通'){
+        //         this.choiseStyleShow1=true,
+        //         this.choiseStyleShow2=false,
+        //         this.choiseStyleShow3=false
+        //     }
+        //     if(style==='萌宠'){
+        //         this.choiseStyleShow1=false,
+        //         this.choiseStyleShow2=true,
+        //         this.choiseStyleShow3=false
+        //     }
+        //     if(style==='复古'){
+        //         this.choiseStyleShow1=false,
+        //         this.choiseStyleShow2=false,
+        //         this.choiseStyleShow3=true
+        //     }
+        //     console.log('执行');
+        //     this.$store.state.Moodcard.choisedStyle=style;
+        // },
         choiseShapeClick(Shape){
             if(Shape==='圆角矩形'){
                 this.choiseShapeShow2=true,
@@ -109,7 +126,9 @@ export default {
              const index1=Number(index)+1
              console.log('点击喜欢了第'+index1+'张照片')
              this.$store.state.Moodcard.choisedHeadPhoto=this.photo[index]
-        }
+        },
+
+
     }
 }
 </script>

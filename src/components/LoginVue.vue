@@ -28,8 +28,9 @@ export default {
   },
   methods:{
     LoginBut(){
-      axios.post('/mtapi/mihray/login',{
-        userName: this.$store.state.name,password: this.$store.state.password
+      axios.post('/login',{
+        userName: this.$store.state.name,
+        password: this.$store.state.password,
       }
       )
       .then((res)=>{
@@ -40,6 +41,8 @@ export default {
           console.log('登录失败了');
         }
         if(res.data.result==='success'){
+          localStorage.setItem('token',res.data.token)
+          console.log(localStorage.getItem('token'))
           console.log('登录成功')
           this.$router.push('/home')
         }
