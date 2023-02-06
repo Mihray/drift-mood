@@ -36,6 +36,9 @@ const store=createStore({
             date:'',
             cardPage: undefined,
             avatarStyle:[],
+            choiseStyle:[],
+            moodList:[],
+
         }
     },
     mutations:{
@@ -78,6 +81,14 @@ const store=createStore({
             state.avatarStyle=state.cardPage.avatarStyle
             console.log(state.avatarStyle)
             console.log(typeof(state.avatarStyle))
+
+            state.choiseStyle=state.avatarStyle
+            state.choiseStyle.forEach((item,index)=>{
+                item['choiseStyleShow']=false;
+                item['id2']=index;
+                console.log(item)
+            })
+            console.log(state.choiseStyle)
         },
     }
 })

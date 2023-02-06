@@ -2,7 +2,7 @@
     <div class="choiseHPhoto">
         <span>选择头像风格</span>
         <div class="choiseStyle">
-            <div v-for="item in $store.state.avatarStyle" :key="item" @click="choiseStyleClick(item.id)" :class="{choisedBox:choiseStyleShow1}">{{ item.name }}</div>
+            <div v-for="item in $store.state.choiseStyle" :key="item"  @click="choiseStyleClick(item.id2)" :class="{choisedBox:item.choiseStyleShow}">{{ item.name }}</div>
             <!-- <div @click="choiseStyleClick('萌宠')" :class="{choisedBox:choiseStyleShow2}">萌宠</div>
             <div @click="choiseStyleClick('复古')" :class="{choisedBox:choiseStyleShow3}">复古</div> -->
         </div>
@@ -25,17 +25,18 @@
 export default {
     data(){
         return{
-            avatarStyle:[],
-            choiseStyle:[
-               {id:0,name:'',choiseStyleShow:false},
-               {id:1,name:'',choiseStyleShow:false},
-               {id:2,name:'',choiseStyleShow:false}
-            ],
+            // avatarStyle:[],
+            // choiseStyle:[
+            //    {id:0,name:'',choiseStyleShow:false},
+            //    {id:1,name:'',choiseStyleShow:false},
+            //    {id:2,name:'',choiseStyleShow:false}
+            // ],
 
             // choiseStyleShow1:false,
             // choiseStyleShow2:false,
             // choiseStyleShow3:false,
 
+            clickIndex:undefined,
 
             choiseShapeShow1:false,
             choiseShapeShow2:false,
@@ -65,13 +66,32 @@ export default {
     },
     methods:{
         choiseStyleClick(id){
-            const index=this.$store.state.avatarStyle.findIndex(item=>{
-                if(item.id===id){
-                    return true
+            this.$store.state.choiseStyle.forEach((item,index)=>{
+                if(index===id){
+                    // return index
+                    console.log('index'+index)
+                    item.choiseStyleShow=true;
+                    this.$store.state.Moodcard.choisedStyle=item;
+                
+                    // for(let i=0;i<this.$store.state.choiseStyle;i++){
+                    // if(this.$store.state.choiseStyle[i]!==this.$store.state.choiseStyle[index]){
+                    //     this.$store.state.choiseStyle[i].choiseStyleShow=false
+                    // }
+                    // }
+                    this.$store.state.choiseStyle.forEach((item2,index2)=>{
+                        if(index2!==index){
+                            item2.choiseStyleShow=false
+                        }
+                    })
                 }
             })
-            this.$store.state.avatarStyle[index].
-        },
+            // this.$store.state.choiseStyle[this.clickIndex].choiseStyleShow=true;
+            // for(let i=0;i<this.$store.state.choiseStyle;i++){
+            //     if(this.$store.state.choiseStyle[i]!==this.$store.state.choiseStyle[this.clickIndex]){
+            //         this.this.$store.state.choiseStyle[i].choiseStyleShow=false
+            //     }
+            //  }
+              },
         // choiseStyleClick(style){
         //     console.log('choiseStyleClick');
         //     if(style==='卡通'){
