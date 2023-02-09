@@ -20,7 +20,8 @@ const store=createStore({
                 choisedHPShapeSquare:false,
                 // choisedHeadPhoto: {id:0,name:'photo0',photoShow:true},
                 // choisedMood:{id:0,name:'开心',choised:true},
-                 choisedHeadPhoto: {id:0,name:'',photoShow:''},
+                // choisedHeadPhoto: {id2:0,photoShow:'',url:'',id:''},
+                choisedHeadPhoto: undefined,
                 choisedMood:{id:0,name:'',choised:''},
                 choisedMood_say:'',
                 choisedBackground:'',
@@ -35,10 +36,10 @@ const store=createStore({
             ],
             date:'',
             cardPage: undefined,
-            avatarStyle:[],
-            choiseStyle:[],
-            moodList:[],
-
+            // avatarStyle:[],
+            // choiseStyle:[],
+            // moodList:[],
+            Hplist:[]
         }
     },
     mutations:{
@@ -78,18 +79,28 @@ const store=createStore({
             state.cardPage = params;
             console.log(state.cardPage)
 
-            state.avatarStyle=state.cardPage.avatarStyle
-            console.log(state.avatarStyle)
-            console.log(typeof(state.avatarStyle))
+            // state.avatarStyle=state.cardPage.avatarStyle
+            // console.log(state.avatarStyle)
+            // console.log('avatarStyle:'+typeof(state.avatarStyle))
+            // state.choiseStyle=state.avatarStyle
+            // state.choiseStyle.forEach((item,index)=>{
+            //     item['choiseStyleShow']=false;
+            //     item['id2']=index;
+            //     console.log(item)
+            // })
+        
+            // console.log(state.choiseStyle)
 
-            state.choiseStyle=state.avatarStyle
-            state.choiseStyle.forEach((item,index)=>{
-                item['choiseStyleShow']=false;
-                item['id2']=index;
-                console.log(item)
-            })
-            console.log(state.choiseStyle)
+            state.moodList=state.cardPage.moodList
+            console.log(state.moodList)
+            console.log('Moodlist:'+typeof(state.moodList))
+
         },
+        getHPlist(state,params){
+            state.Hplist=params
+            console.log('Hplist:'+state.Hplist)
+            console.log(state.Hplist.avatarList)
+        }
     }
 })
 export default store

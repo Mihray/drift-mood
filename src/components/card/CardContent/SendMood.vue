@@ -37,6 +37,7 @@ export default {
         return{
             SendMoodDate:'',
             classHeadPhoValue:[false,true]
+            
           }
     },
     created(){
@@ -79,7 +80,7 @@ export default {
         play(){
             console.log('播放');
         }
-    }
+    },
 }
 </script>
 <style scoped>

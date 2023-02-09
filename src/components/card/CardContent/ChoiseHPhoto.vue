@@ -2,7 +2,7 @@
     <div class="choiseHPhoto">
         <span>选择头像风格</span>
         <div class="choiseStyle">
-            <div v-for="item in $store.state.choiseStyle" :key="item"  @click="choiseStyleClick(item.id2)" :class="{choisedBox:item.choiseStyleShow}">{{ item.name }}</div>
+            <div v-for="item in avatarStyleList" :key="item"  @click="choiseStyleClick(item.id2)" :class="{choisedBox:item.choiseStyleShow}">{{ item.name }}</div>
             <!-- <div @click="choiseStyleClick('萌宠')" :class="{choisedBox:choiseStyleShow2}">萌宠</div>
             <div @click="choiseStyleClick('复古')" :class="{choisedBox:choiseStyleShow3}">复古</div> -->
         </div>
@@ -13,7 +13,8 @@
         </div>
         <div class="choiseHeadPhoto" >选择一个头像吧~
             <div class="choiseHeadPhoto-box"> 
-                <div  v-for="item in photo" :key="item" @click="choisePhotoClick(item.id)" :style="{'border-radius':border_radius+'px'}">
+                <div  v-for="item in photo" :key="item" @click="choisePhotoClick(item.id2)" :style="{'border-radius':border_radius+'px','backgroundImage':'url('+item.url+')'}" :src="item.url">
+                    <!-- <img :src="item.url" style="width:76px;height: 76px;"/> -->
                     <div class="likeimg" v-if="item.photoShow"></div>
                 </div>
             </div>
@@ -21,10 +22,12 @@
     </div>
 </template>
 <script>
-// import axios from 'axios'
+import axios from 'axios'
 export default {
     data(){
         return{
+            idNumber:Number,
+            avatarStyleList:[],
             // avatarStyle:[],
             // choiseStyle:[
             //    {id:0,name:'',choiseStyleShow:false},
@@ -40,51 +43,94 @@ export default {
 
             choiseShapeShow1:false,
             choiseShapeShow2:false,
-
-            photo:[
-                {id:0,name:'photo0',photoShow:false},
-                {id:1,name:'photo1',photoShow:false},
-                {id:2,name:'photo2',photoShow:false},
-                {id:3,name:'photo3',photoShow:false},
-                {id:4,name:'photo4',photoShow:false}
-            ],
+            photo:[],
+            // photo:[
+            //     {id:0,name:'photo0',photoShow:false,url: 'https://pic.imgdb.cn/item/63d7e31cface21e9efa70917.jpg'},
+            //     {id:1,name:'photo1',photoShow:false},
+            //     {id:2,name:'photo2',photoShow:false},
+            //     {id:3,name:'photo3',photoShow:false},
+            //     {id:4,name:'photo4',photoShow:false}
+            // ],
             border_radius:38
         }
     },
     //上一步保存已经填好的数据
     created(){
-        this.choiseStyleClick(this.$store.state.Moodcard.choisedStyle)
-        this.choiseShapeClick(this.$store.state.Moodcard.choisedShape)
-        console.log(this.$store.state.Moodcard.choisedHeadPhoto.id)
+        const avatarStyleList = this.$store.state.cardPage.avatarStyle;
+        avatarStyleList.forEach((item,index)=>{
+                item['choiseStyleShow']=false;
+                item['id2']=index;
+                console.log(item)
+            })
+            this.avatarStyleList = avatarStyleList
+        
+
+            
+        // this.choiseStyleClick(this.$store.state.Moodcard.choisedStyle || 0)
+        // this.choiseShapeClick(this.$store.state.Moodcard.choisedShape)
+
+        // console.log(this.$store.state.Moodcard.choisedHeadPhoto.id2)
         // this.$store.state.Moodcard.choisedHeadPhoto.photoShow=true;
-        this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id)].photoShow=true;
-        for(let i=0;i<this.photo.length;i++){
-                if(this.photo[i]!==this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id)]){
-                    this.photo[i].photoShow=false
-                }
-             }
+        // this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id2)].photoShow=true;
+        // for(let i=0;i<this.photo.length;i++){
+        //         if(this.photo[i]!==this.photo[(this.$store.state.Moodcard.choisedHeadPhoto.id2)]){
+        //             this.photo[i].photoShow=false
+        //         }
+        //      }
     },
     methods:{
         choiseStyleClick(id){
-            this.$store.state.choiseStyle.forEach((item,index)=>{
+            console.log('id:' + id);
+            this.avatarStyleList.forEach((item,index)=>{
                 if(index===id){
-                    // return index
                     console.log('index'+index)
                     item.choiseStyleShow=true;
                     this.$store.state.Moodcard.choisedStyle=item;
-                
-                    // for(let i=0;i<this.$store.state.choiseStyle;i++){
-                    // if(this.$store.state.choiseStyle[i]!==this.$store.state.choiseStyle[index]){
-                    //     this.$store.state.choiseStyle[i].choiseStyleShow=false
-                    // }
-                    // }
-                    this.$store.state.choiseStyle.forEach((item2,index2)=>{
+                    this.idNumber=index
+
+                    this.avatarStyleList.forEach((item2,index2)=>{
                         if(index2!==index){
                             item2.choiseStyleShow=false
                         }
                     })
-                }
+                }       
             })
+            console.log(this.avatarStyleList);
+            console.log(id);
+            // post 的三个参数： url, params, config。 headers写在config里面
+            const that = this;
+            axios.post('/card/getAvatars', 
+            { avatarStyleId:this.avatarStyleList[id].id },
+            { headers: { token: localStorage.getItem('token')}},
+            ).then((res)=>{
+                console.log(res);
+                that.$store.commit('getHPlist', res.data);
+
+                const Hpolist=this.$store.state.Hplist.avatarList;
+                console.log('Hpolist:');
+                console.log(Hpolist);
+                Hpolist.forEach((item,index)=>{
+                item['photoShow']=false;
+                item['id2']=index;
+                console.log('Hpolist加了属性之后：')
+                console.log(Hpolist)
+            })
+            this.photo=Hpolist;
+
+            }).catch(err=>{
+                console.log(err)
+            })
+            
+            // const Hpolist=this.$store.state.Hplist.avatarList;
+            // console.log('Hpolist:');
+            // console.log(Hpolist);
+            // Hpolist.forEach((item,index)=>{
+            //     item['photoShow']=false;
+            //     item['id2']=index;
+            //     console.log('Hpolist加了属性之后：')
+            //     console.log(Hpolist)
+            // })
+            // this.photo=Hpolist;
             // this.$store.state.choiseStyle[this.clickIndex].choiseStyleShow=true;
             // for(let i=0;i<this.$store.state.choiseStyle;i++){
             //     if(this.$store.state.choiseStyle[i]!==this.$store.state.choiseStyle[this.clickIndex]){
@@ -92,26 +138,7 @@ export default {
             //     }
             //  }
               },
-        // choiseStyleClick(style){
-        //     console.log('choiseStyleClick');
-        //     if(style==='卡通'){
-        //         this.choiseStyleShow1=true,
-        //         this.choiseStyleShow2=false,
-        //         this.choiseStyleShow3=false
-        //     }
-        //     if(style==='萌宠'){
-        //         this.choiseStyleShow1=false,
-        //         this.choiseStyleShow2=true,
-        //         this.choiseStyleShow3=false
-        //     }
-        //     if(style==='复古'){
-        //         this.choiseStyleShow1=false,
-        //         this.choiseStyleShow2=false,
-        //         this.choiseStyleShow3=true
-        //     }
-        //     console.log('执行');
-        //     this.$store.state.Moodcard.choisedStyle=style;
-        // },
+        
         choiseShapeClick(Shape){
             if(Shape==='圆角矩形'){
                 this.choiseShapeShow2=true,
@@ -129,27 +156,38 @@ export default {
             }
             this.$store.state.Moodcard.choisedShape=Shape
         },
-        choisePhotoClick(number){
-             const index=this.photo.findIndex(item=>{
-                if(item.id===number){
-                    return true
-                }
-             })
-             this.photo[index].photoShow=true
+        choisePhotoClick(id){
+            this.photo.forEach((item,index)=>{
+                if(id===index){
+                    item.photoShow=true
+                }else(
+                    item.photoShow=false
+                )
+            })
+            //  const index=this.photo.findIndex(item=>{
+            //     if(item.id===number){
+            //         return true
+            //     }
+            //  })
+            //  this.photo[id].photoShow=true
             //  this.photo[index].photoShow=!this.photo[index].photoShow
             //只能选择一张照片的实现
-             for(let i=0;i<this.photo.length;i++){
-                if(this.photo[i]!==this.photo[index]){
-                    this.photo[i].photoShow=false
-                }
-             }
-             const index1=Number(index)+1
+            //  for(let i=0;i<this.photo.length;i++){
+            //     if(this.photo[i]!==this.photo[index]){
+            //         this.photo[i].photoShow=false
+            //     }
+            //  }
+             const index1=Number(id)+1
              console.log('点击喜欢了第'+index1+'张照片')
-             this.$store.state.Moodcard.choisedHeadPhoto=this.photo[index]
+            //  this.$store.state.Moodcard.choisedHeadPhoto=this.photo[id]
         },
 
 
-    }
+    },
+    mounted() {
+        console.log('子组件的mounted，用来存数据data');
+        console.log(this.$store.state.cardPage);
+    },
 }
 </script>
 <style scoped>
@@ -283,6 +321,7 @@ export default {
     background: #ff62a5;
     margin-left: 27px;
     margin-top: 25px;
+    background-size: 100% 100%;
 }
 .likeimg{
     width: 63px;
