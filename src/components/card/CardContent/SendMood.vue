@@ -1,12 +1,14 @@
 <template>
     <div class="sendMood">
-        <div class="sendMood-Moodcard"> 
+        <div class="sendMood-Moodcard" :style="{'backgroundImage':'url('+sendMoodcard.choisedBackgroundUrl+')'}"> 
+            <div class="mask"></div>
             <div class="choiseBackground-preview-firstLine">
-                <div  :class="{HeadPhoto1:classHeadPhoValue[0],HeadPhoto2: classHeadPhoValue[1]}"></div>
+                <div  :class="{HeadPhoto1:classHeadPhoValue[0],HeadPhoto2: classHeadPhoValue[1]}" :style="{'backgroundImage':'url('+sendMoodcard.choisedHeadPhotoUrl+')'}"></div>
                 <span class="name">{{$store.state.name}}</span>
-                <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span>
+                <!-- <span class="Mood">{{$store.state.Moodcard.choisedMood.name}}</span> -->
+                <img :src="sendMoodcard.choisedMoodUrl">
             </div>
-            <div class="choisedMood_say">{{$store.state.Moodcard.choisedMood_say}}</div>
+            <div class="choisedMood_say">{{sendMoodcard.choisedMood_say}}</div>
             <div class="date">{{SendMoodDate}}</div>
         </div>
         <div class="sendMood-img">
@@ -36,11 +38,12 @@ export default {
     data(){
         return{
             SendMoodDate:'',
-            classHeadPhoValue:[false,true]
-            
+            classHeadPhoValue:[false,true],
+            sendMoodcard:{}
           }
     },
     created(){
+        this.sendMoodcard=this.$store.state.Moodcard
         this.$store.commit('getDate')
         this.SendMoodDate=this.$store.state.date;
         this.$store.state.Moodcard.Mooddate=this.SendMoodDate
@@ -95,7 +98,8 @@ export default {
     width: 343px;
     height: 193px;
     border-radius: 21px;
-    background-image: url(../../../assets/background01.jpg);
+    /* background-image: url(../../../assets/background01.jpg); */
+    background-size: 100% 100%;
     margin-top: 25px;
     display: flex;
     flex-direction: column;
@@ -103,7 +107,10 @@ export default {
     align-items: center;
 }
 .choiseBackground-preview-firstLine{
-    margin-top: 10px;
+    margin-top: -180px;
+    z-index: 1;
+    position: relative;
+    margin-bottom: 10px;
     display: flex;
     justify-content:space-evenly;
     align-items:center;
@@ -115,6 +122,7 @@ export default {
     border-radius:10px;
     /* background-image: ; */
     background: #ff62a5;
+    background-size: 100% 100%;
 }
 .HeadPhoto2{
     width: 45px;
@@ -122,6 +130,7 @@ export default {
     border-radius:50%;
     /* background-image: ; */
     background: #ff62a5;
+    background-size: 100% 100%;
 }
 .name{
     font-size: 32px;
@@ -143,7 +152,7 @@ export default {
 }
 .choisedMood_say{
     width: 300px;
-    height: 135px;
+    height: 100px;
     font-size: 20px;
     font-family: PingFang SC, PingFang SC-Regular;
     font-weight: 400;
@@ -151,6 +160,9 @@ export default {
     color: #000000;
     letter-spacing: 1px;
     margin-top: 10px;
+    z-index: 1;
+    position: relative;
+    margin: auto;
 }
 .date{
     width: 150px;
@@ -245,5 +257,15 @@ export default {
     height: 36px;
     border-radius: 12px;
     margin-right: 15px;
+}
+.choiseBackground-preview-firstLine>img{
+    width: 50px;
+    height: 50px;
+}
+.mask{
+    background-color: #ffffff;
+    opacity: 0.4;
+    width: 343px;
+    height: 200px;
 }
 </style>

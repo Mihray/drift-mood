@@ -4,6 +4,7 @@
         <div class="choiseMood-choiseBox"> 
             <div v-for="item in Mood" :key="item" :class="{choisedBox:item.choised}" @click="choiseMoodClick(item.id)">{{item.name}}</div>
         </div>
+        <img :src="url">
         <div class="choiseMood-say"> 
             <span>说点什么</span>
             <textarea v-model="message" placeholder="今天好开心哦"></textarea>
@@ -11,28 +12,39 @@
     </div>
 </template>
 <script>
+
 export default {
     data(){
         return{
-            Mood:[
-                {id:0,name:'开心',choised:true},
-                {id:1,name:'得意',choised:false},
-                {id:2,name:'平静',choised:false},
-                {id:3,name:'愤怒',choised:false},
-                {id:4,name:'烦躁',choised:false},
-                {id:5,name:'伤心',choised:false}
-            ],
-            message:''
+            Mood:[],
+            // Mood:[
+            //     {id:0,name:'开心',choised:true},
+            //     {id:1,name:'得意',choised:false},
+            //     {id:2,name:'平静',choised:false},
+            //     {id:3,name:'愤怒',choised:false},
+            //     {id:4,name:'烦躁',choised:false},
+            //     {id:5,name:'伤心',choised:false}
+            // ],
+            message:'',
+            url:'https://pic.imgdb.cn/item/63d7d248face21e9ef7eed9e.png',
         }
     },
     created(){
-        this.Mood[(this.$store.state.Moodcard.choisedMood.id)].choised=true
-        for(let i=0;i<this.Mood.length;i++){
-                if(this.Mood[i]!==this.Mood[(this.$store.state.Moodcard.choisedMood.id)]){
-                    this.Mood[i].choised=false
-                }
-             }
-       this.message=this.$store.state.Moodcard.choisedMood_say
+    //     this.Mood[(this.$store.state.Moodcard.choisedMood.id)].choised=true
+    //     for(let i=0;i<this.Mood.length;i++){
+    //             if(this.Mood[i]!==this.Mood[(this.$store.state.Moodcard.choisedMood.id)]){
+    //                 this.Mood[i].choised=false
+    //             }
+    //          }
+    //    this.message=this.$store.state.Moodcard.choisedMood_say
+
+           const Moodlist=this.$store.state.cardPage.moodList
+           Moodlist.forEach((item,index)=>{
+            item['id2']=index;
+            item['choised']=false;
+           })
+           console.log(Moodlist)
+           this.Mood=Moodlist
     },
     methods:{
         choiseMoodClick(id){
@@ -42,13 +54,15 @@ export default {
                 }
             })
             this.Mood[index].choised=true
+            this.url=this.Mood[index].url
             for(let i=0;i<this.Mood.length;i++){
                 if(this.Mood[i]!==this.Mood[index]){
                     this.Mood[i].choised=false
                 }
              }
             //  this.$store.state.Moodcard.choisedMood=this.Mood[index].name
-            this.$store.state.Moodcard.choisedMood=this.Mood[index]
+            this.$store.state.Moodcard.choisedMoodId=this.Mood[index].id
+            this.$store.state.Moodcard.choisedMoodUrl=this.Mood[index].url
         }
     },
     updated(){
@@ -149,5 +163,10 @@ export default {
     letter-spacing: 0.1px;
     margin-top: 20px;
     flex-wrap: wrap;
+}
+.choiseMood>img{
+    width:200px;
+    height:200px;
+    margin: auto;
 }
 </style>

@@ -13,7 +13,7 @@
         </div>
         <div class="choiseHeadPhoto" >选择一个头像吧~
             <div class="choiseHeadPhoto-box"> 
-                <div  v-for="item in photo" :key="item" @click="choisePhotoClick(item.id2)" :style="{'border-radius':border_radius+'px','backgroundImage':'url('+item.url+')'}" :src="item.url">
+                <div  v-for="item in photo" :key="item" @click="choisePhotoClick(item.id2)" :style="{'border-radius':border_radius+'px','backgroundImage':'url('+item.url+')'}">
                     <!-- <img :src="item.url" style="width:76px;height: 76px;"/> -->
                     <div class="likeimg" v-if="item.photoShow"></div>
                 </div>
@@ -51,7 +51,8 @@ export default {
             //     {id:3,name:'photo3',photoShow:false},
             //     {id:4,name:'photo4',photoShow:false}
             // ],
-            border_radius:38
+            border_radius:38,
+            ShapeId:''
         }
     },
     //上一步保存已经填好的数据
@@ -85,7 +86,8 @@ export default {
                 if(index===id){
                     console.log('index'+index)
                     item.choiseStyleShow=true;
-                    this.$store.state.Moodcard.choisedStyle=item;
+                    this.$store.state.Moodcard.choisedStyle=item.name;
+                    this.$store.state.Moodcard.choisedStyleId=item.id
                     this.idNumber=index
 
                     this.avatarStyleList.forEach((item2,index2)=>{
@@ -141,6 +143,7 @@ export default {
         
         choiseShapeClick(Shape){
             if(Shape==='圆角矩形'){
+                this.ShapeId='circleCectangle';
                 this.choiseShapeShow2=true,
                 this.choiseShapeShow1=false
                 this.border_radius=15
@@ -148,6 +151,7 @@ export default {
                 this.$store.state.Moodcard.choisedHPShapeSquare=true
             }
             if(Shape==='圆形'){
+                this.ShapeId='circle'
                 this.choiseShapeShow2=false,
                 this.choiseShapeShow1=true
                 this.border_radius=38
@@ -155,6 +159,7 @@ export default {
                 this.$store.state.Moodcard.choisedHPShapeSquare=false
             }
             this.$store.state.Moodcard.choisedShape=Shape
+            this.$store.state.Moodcard.choisedShapeId=this.ShapeId
         },
         choisePhotoClick(id){
             this.photo.forEach((item,index)=>{
@@ -179,7 +184,7 @@ export default {
             //  }
              const index1=Number(id)+1
              console.log('点击喜欢了第'+index1+'张照片')
-            //  this.$store.state.Moodcard.choisedHeadPhoto=this.photo[id]
+             this.$store.state.Moodcard.choisedHeadPhotoUrl=this.photo[id].url
         },
 
 
