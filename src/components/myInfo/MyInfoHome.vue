@@ -4,36 +4,39 @@
         <div class="MySInfo-headBox-big"> 
             <div class="MySInfo-headBox">
                 <div class="MySInfo-headBox-firstLine">
-                    <div class="heatPh"></div>
+                    <div class="heatPh" :style="{'backgroundImage':'url('+userInfo.avatarImage+')'}"></div>
                     <div class="MySInfo-headBox-firstLine-span"> 
                         <span>{{ userInfo.nickName }}</span>
                         <span>来到漂流心情已经<span>{{userInfo.dayCount}}</span>天了</span>
                     </div>
                 </div>
-                <span>记录12次心情，并向大家寄出了5次</span>
-                <span>收藏28张心情卡片。分享快乐，分担苦恼</span>
+                <span>记录了<span>{{ userInfo.recordCount }}</span>次心情，并向大家寄出了<span>{{ userInfo.shareCount }}</span>次</span>
+                <span>收藏<span>{{ userInfo.collectCount }}</span>张心情卡片。分享快乐，分担苦恼</span>
             </div>
         </div>
         <div class="StatMood">
             <span>最多的心情Top3</span>
             <div class="barChart"> 
                 <div class="barChart-firstBar">
-                    <span>10次</span>
-                    <div></div>
+                    <span>{{ topMood.first.count }}次</span>
+                    <div :style="{height:topMood.first.count*6+'px'}"></div>
                 </div>
                 <div class="barChart-twoBar"> 
-                    <span>3次</span>
-                    <div></div>
+                    <span>{{ topMood.second.count }}次</span>
+                    <div :style="{height:topMood.second.count*6+'px'}"></div>
                 </div>
                 <div class="barChart-lasttBar"> 
-                    <span>0次</span>
-                    <div></div>
+                    <span>{{ topMood.third.count }}次</span>
+                    <div :style="{height:topMood.third.count*6+'px'}"></div>
                 </div>
             </div>
             <div class="StatMood-MoodSpan"> 
-                <span>愤怒</span>
+                <img :src="topMood.first.moodImage">
+                <img :src="topMood.second.moodImage">
+                <img :src="topMood.third.moodImage">
+                <!-- <span>愤怒</span>
                 <span>开心</span>
-                <span>平静</span>
+                <span>平静</span> -->
             </div>
         </div>
         <div class="history-Mood"> 
@@ -141,10 +144,11 @@ export default {
     width: 72px;
     height: 72px;
     border-radius: 16px;
-    background-color: #d5b1e5;
+    /* background-color: #d5b1e5; */
     margin-right: 20px;
     margin-left: 18px;
     margin-top: 20px;
+    background-size: 100% 100%;
 }
 .MySInfo-headBox-firstLine-span{
     margin-top: 30px;
@@ -199,9 +203,11 @@ export default {
     display: flex;
     justify-content: center;
 }
-.StatMood-MoodSpan>span{
-    font-size: 20px;
-    margin-right: 20px;
+.StatMood-MoodSpan>img{
+    /* font-size: 20px; */
+    margin-right: 20px; 
+    width: 40px;
+    height: 40px;
 }
 .barChart{
     width: 280px;
@@ -226,7 +232,7 @@ export default {
 }
 .barChart>div>div{
     width: 40px;
-    height: 60px;
+    /* height: 60px; */
     background: #ff8960;
     border-radius: 4px 4px 0px 0px;
 }
