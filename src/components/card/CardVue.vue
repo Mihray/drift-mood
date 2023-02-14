@@ -1,7 +1,7 @@
 <template>
     <div class="BigCardBox">
         <top-line @nextStep="nextStep" @lastStep="lastStep"></top-line>
-    <router-view></router-view>
+    <router-view @saveHint="saveHint1"></router-view>
     </div>
 </template>
 <script>
@@ -57,6 +57,11 @@ export default {
         lastStep(param2){
             console.log('上一步点击成功')
             this.$router.push(param2)
+        },
+        saveHint1(pram11,pram22,pram33){
+            console.log('pram11,pram22,pram33:'+pram11,pram22,pram33)
+            this.$emit('SaveHint',pram11,pram22,pram33)
+            console.log('触发cardVue到APP的emit事件啦')
         }
     }
 }

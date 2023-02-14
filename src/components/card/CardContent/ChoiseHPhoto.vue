@@ -143,7 +143,7 @@ export default {
         
         choiseShapeClick(Shape){
             if(Shape==='圆角矩形'){
-                this.ShapeId='circleCectangle';
+                this.ShapeId='rectangle';
                 this.choiseShapeShow2=true,
                 this.choiseShapeShow1=false
                 this.border_radius=15

@@ -6,8 +6,8 @@
                 <div class="MySInfo-headBox-firstLine">
                     <div class="heatPh"></div>
                     <div class="MySInfo-headBox-firstLine-span"> 
-                        <span>daming</span>
-                        <span>来到漂流心情已经29天了</span>
+                        <span>{{ userInfo.nickName }}</span>
+                        <span>来到漂流心情已经<span>{{userInfo.dayCount}}</span>天了</span>
                     </div>
                 </div>
                 <span>记录12次心情，并向大家寄出了5次</span>
@@ -70,14 +70,31 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
+
 export default {
     data(){
         return{
             // classHeadPhoValue:[false,true]
+            cardList:undefined,
+            topMood:undefined,
+            userInfo:undefined,
         }
     },
     updated(){
         console.log('更新',this.$store.state.allMoodcardGather)
+    },
+    beforeCreate(){
+        axios.get('/mine/query',{
+            headers:{token: localStorage.getItem('token')}
+        }).then(res=>{
+            console.log(res.data)
+            this.cardList=res.data.cardList;
+            this.topMood=res.data.topMood;
+            this.userInfo=res.data.userInfo
+            console.log('userInfo：')
+            console.log(this.userInfo)
+        })
     }
 }
 </script>

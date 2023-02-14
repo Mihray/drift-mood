@@ -28,7 +28,8 @@ const store=createStore({
                 choisedMoodUrl:'',
                 choisedMood_say:'',
                 choisedBackgroundUrl:'',
-                Mooddate:''
+                Mooddate:'',
+                MoodDateOriginal:'',
             },
             PrivateMoodcardGather:[
             ],
@@ -54,6 +55,7 @@ const store=createStore({
         },
         getDate(state){
             const adate=new Date()
+            state.Moodcard.MoodDateOriginal=adate
             // const year=adate.getFullYear()
             const Month=adate.getMonth()+1
             // const Minutes=

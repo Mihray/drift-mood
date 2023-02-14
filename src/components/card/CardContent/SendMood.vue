@@ -12,11 +12,11 @@
             <div class="date">{{SendMoodDate}}</div>
         </div>
         <div class="sendMood-img">
-            <div class="seve" @click="MySave">
+            <div class="seve" @click="save('privateSave')">
                 <div></div>
                 <span>私人保存</span>
             </div>
-            <div class="send" @click="sendCard">
+            <div class="send" @click="save('publicSave')">
                 <div></div>
                 <span>去漂流</span>
             </div>
@@ -34,12 +34,17 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 export default {
+    components:{
+       
+    },
     data(){
         return{
             SendMoodDate:'',
             classHeadPhoValue:[false,true],
-            sendMoodcard:{}
+            sendMoodcard:{},
+            savaHintShow:false
           }
     },
     created(){
@@ -58,28 +63,72 @@ export default {
         }
     },
     methods:{
-        MySave(){
-            console.log('保存')
-            this.$store.commit('pushMood')
-            // this.$store.state.PrivateMoodcardGather.push(this.$store.state.Moodcard)
-            // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
-            console.log(this.$store.state.PrivateMoodcardGather)
-            this.$router.push('/card/hphoto')
-            // this.$store.state.Moodcard.choisedStyle='',
-            // this.$store.state.Moodcard.choisedShape=''
+        // MySave(){
+        //     console.log('保存')
+        //     this.$store.commit('pushMood')
+        //     // this.$store.state.PrivateMoodcardGather.push(this.$store.state.Moodcard)
+        //     // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
+        //     console.log(this.$store.state.PrivateMoodcardGather)
+        //     this.savaHintShow=true
 
-            console.log('更新',this.$store.state.allMoodcardGather)
-        },
-        sendCard(){
-            console.log('寄出');
-            // this.$store.state.publicMoodcardGather.push(this.$store.state.Moodcard)
-            // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
-            console.log(this.$store.state.publicMoodcardGather)
-            this.$router.push('/card/hphoto')
-            // this.$store.state.Moodcard.choisedStyle='',
-            // this.$store.state.Moodcard.choisedShape='',
-            // this.$store.state.Moodcard.choisedMood_say=''
-        },
+        //     // this.$router.push('/card/hphoto')
+        //     // this.$store.state.Moodcard.choisedStyle='',
+        //     // this.$store.state.Moodcard.choisedShape=''
+
+        //     console.log('更新',this.$store.state.allMoodcardGather)
+        // },
+        // sendCard(){
+        //     console.log('寄出');
+        //     // this.$store.state.publicMoodcardGather.push(this.$store.state.Moodcard)
+        //     // this.$store.state.allMoodcardGather.push(this.$store.state.Moodcard)
+        //     console.log(this.$store.state.publicMoodcardGather)
+        //     this.$router.push('/card/hphoto')
+        //     // this.$store.state.Moodcard.choisedStyle='',
+        //     // this.$store.state.Moodcard.choisedShape='',
+        //     // this.$store.state.Moodcard.choisedMood_say=''
+        // },
+
+        save(saveType){
+            axios.post('/card/completeCard',{
+            action:saveType,
+            mood:this.sendMoodcard.choisedMoodId,
+            avatarShape:this.sendMoodcard.choisedShapeId,
+            background:this.sendMoodcard.choisedBackgroundUrl,
+            avatar:this.sendMoodcard.choisedHeadPhotoUrl,
+            message:this.sendMoodcard.choisedMood_say,
+            currentTime:this.sendMoodcard.MoodDateOriginal,
+            },{ 
+                headers:{token: localStorage.getItem('token')}
+            }).then(res=>{
+                console.log(res);
+            if(saveType==='privateSave') {
+                    if(res.data.result==='success')
+                    console.log('res.data.result:'+res.data.result)
+                    {
+                        this.$emit('saveHint',true,'privateSave','success')
+                    }
+                    if(res.data.result==='fail')
+                    console.log('res.data.result:'+res.data.result)
+                    {
+                        this.$emit('saveHint',true,'privateSave','fail')
+                        console.log('触发saveHint啦')
+                    }
+           }
+           if(saveType==='publicSave'){
+                    if(res.data.result==='success')
+                    {
+                        this.$emit('saveHint',true,'publicSave','success')
+                    }
+                    if(res.data.result==='fail')
+                    {
+                        this.$emit('saveHint',true,'publicSave','fail')
+                    }
+            }
+            }).catch(err=>{
+                console.log(err)
+            })
+        }
+        ,
         play(){
             console.log('播放');
         }

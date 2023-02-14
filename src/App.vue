@@ -1,14 +1,21 @@
 <template>
   <router-view></router-view>
+  <!-- <save-hint v-if="hint" :hintPram2="hintPram2" :hintPram3="hintPram3"></save-hint> -->
 </template>
 
 <script>
+// import SaveHint from './components/SaveHint.vue'
 
 
 export default {
   name: 'App',
-  components: {
-   
+  // components: {
+  //   SaveHint
+  // },
+  data(){
+    return {
+      // hint:false,
+    }
   },
   mounted(){
     this.$router.push('/login')
