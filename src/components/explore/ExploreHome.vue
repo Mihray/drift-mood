@@ -54,6 +54,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios'
 
 export default {
     data(){
@@ -72,6 +73,12 @@ export default {
                 {id:5,name:'伤心',choised:false}
             ],
         }
+    },
+    created(){
+        axios.post('/explore/search',
+        { 
+                headers:{token: localStorage.getItem('token')}
+            })
     },
     methods:{
         ExploretimechoiseClick(id){

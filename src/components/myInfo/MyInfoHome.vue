@@ -40,20 +40,22 @@
             </div>
         </div>
         <div class="history-Mood"> 
-                <div class="history-Mood-group" v-for="item in $store.state.allMoodcardGather" :key="item"> 
+                <div class="history-Mood-group" v-for="item in cardListGroupByDate" :key="item"> 
                     <div class="history-Mood-group-firstLine"> 
                         <div class="history-Mood-group-firstLine-circle"></div>
-                        <span class="history-Mood-group-firstLine-date">{{item.Mooddate}}</span>
+                        <span class="history-Mood-group-firstLine-date">{{item.newDate}}</span>
                     </div>
-                    <div class="history-Mood-group-lineBox"> 
-                        <div class="history-Mood-group-lineBox-MoodCard">
+                    <div class="history-Mood-group-lineBox" > 
+                        <div class="history-Mood-group-lineBox-MoodCard" v-for="item2 in item.cardList" :key="item2" :style="{'backgroundImage':'url('+item2.background+')'}">
+                            <div class="mask"></div>
                             <div class="history-Mood-group-lineBox-MoodCard-firstLine">
-                                <div  :class="{HeadPhoto1:item.choisedHPShapeSquare,HeadPhoto2:item.choisedHPShapeCircle}"></div>
-                                <span class="name">{{$store.state.name}}</span>
-                                <span class="Mood">{{item.Mooddate.name}}</span>
+                                <div  :class="{HeadPhoto1:item2.HeadPhotoShape1,HeadPhoto2:item2.HeadPhotoShape2}" :style="{'backgroundImage':'url('+item2.avatarImage+')'}"></div>
+                                <span class="name">{{item2.nickName}}</span>
+                                <!-- <span class="Mood">{{item.Mooddate.name}}</span> -->
+                                <img :src="item2.moodImage">
                             </div>
-                            <div class="history-Mood-group-lineBox-MoodCard_say">{{item.choisedMood_say}}</div>
-                            <div class="date">{{item.Mooddate}}</div>
+                            <div class="history-Mood-group-lineBox-MoodCard_say">{{item2.cardMessage}}</div>
+                            <div class="date">{{item2.cardNewTime}}</div>
                         </div>
                     </div>
                 </div>
@@ -74,14 +76,27 @@
 </template>
 <script>
 import axios from 'axios';
+// import classify from '../../dateClassify.js'
 
 export default {
     data(){
         return{
             // classHeadPhoValue:[false,true]
-            cardList:undefined,
+            cardListGroupByDate:undefined,
             topMood:undefined,
             userInfo:undefined,
+
+            HeadPhotoShape1:Boolean,
+            HeadPhotoShape2:Boolean,
+            // cardMoodList:[
+            //                 {name:'meimei',cardTime:new Date('2023/2/15 14:56:00')},
+            //                 {name:'meimei',cardTime:new Date('2023/3/15 13:56:00')},
+            //                 {name:'meimei',cardTime:new Date('2022/5/15 14:56:00')},
+            //                 {name:'meimei',cardTime:new Date('2023/2/15 12:56:00')},
+            //                 {name:'meimei',cardTime:new Date('2023/3/16 14:56:00')},
+            //                 {name:'meimei',cardTime:new Date('2023/3/16 14:58:00')},
+            //                 ]
+
         }
     },
     updated(){
@@ -92,13 +107,39 @@ export default {
             headers:{token: localStorage.getItem('token')}
         }).then(res=>{
             console.log(res.data)
-            this.cardList=res.data.cardList;
+            // this.cardListGroupByDate=res.data.cardListGroupByDate;
+
+            const cardlist=res.data.cardListGroupByDate;
+            cardlist.forEach(item => {
+                item.newDate=item.date.slice(0,4)+'年'+item.date.slice(4,6)+'月'+item.date.slice(6,8)+'日'
+                item.cardList.forEach(item2=>{
+                    if(item2.avatarShape==='circle'){
+                        item2.HeadPhotoShape2=true
+                        item2.HeadPhotoShape1=false
+                    }else if(item2.avatarShape==='rectangle'){
+                        item2.HeadPhotoShape2=false
+                        item2.HeadPhotoShape1=true
+                    }
+                    function Minutes(Minutes){
+                        if(Number(Minutes.getMinutes())<10){
+                             return '0'+Minutes.getMinutes()
+                        }else{
+                            return Minutes.getMinutes()
+                        }}
+                    item2.cardNewTime=(new Date(item2.cardTime)).getFullYear()+'年'+(Number((new Date(item2.cardTime)).getMonth())+1)+'月'+(new Date(item2.cardTime)).getDate()+'日'+(new Date(item2.cardTime)).getHours()+':'+Minutes((new Date(item2.cardTime)))
+
+                })
+            });
+            this.cardListGroupByDate=cardlist
+            console.log(this.cardListGroupByDate)
+
             this.topMood=res.data.topMood;
             this.userInfo=res.data.userInfo
             console.log('userInfo：')
-            console.log(this.userInfo)
+            console.log(this.userInfo);
+            // classify(this.cardMoodList);
         })
-    }
+    },
 }
 </script>
 <style scoped>
@@ -279,30 +320,35 @@ export default {
     width: 343px;
     height: 193px;
     border-radius: 21px;
-    background-color: #5b1b36;
+    background-color: #f0d3df;
     margin-top: 10px;
 }
 
 .history-Mood-group-lineBox-MoodCard-firstLine{
-    margin-top: 10px;
+    margin-top: -180px;
+    z-index: 1;
+    position: relative;
+    margin-bottom: 10px;
     display: flex;
     justify-content:space-evenly;
     align-items:center;
     width: 343px;
 }
 .HeadPhoto1{
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     border-radius:10px;
     /* background-image: ; */
     background: #ff62a5;
+    background-size: 100% 100%;
 }
 .HeadPhoto2{
-    width: 45px;
-    height: 45px;
+    width: 55px;
+    height: 55px;
     border-radius:50%;
     /* background-image: ; */
     background: #ff62a5;
+    background-size: 100% 100%;
 }
 .name{
     font-size: 32px;
@@ -324,7 +370,7 @@ export default {
 }
 .history-Mood-group-lineBox-MoodCard_say{
     width: 300px;
-    height: 135px;
+    height: 90px;
     font-size: 20px;
     font-family: PingFang SC, PingFang SC-Regular;
     font-weight: 400;
@@ -332,9 +378,12 @@ export default {
     color: #000000;
     letter-spacing: 1px;
     margin-top: 10px;
+    z-index: 1;
+    position: relative;
+    margin: auto;
 }
 .date{
-    width: 150px;
+    /* width: 150px; */
     height: 20px;
     margin-left: 170px;
     font-size: 16px;
@@ -343,5 +392,16 @@ export default {
     color: #ffffff;
     line-height: 16px;
     letter-spacing: 0.08px;
+}
+.mask{
+    background-color: #ffffff;
+    opacity: 0.4;
+    width: 343px;
+    height: 193px;
+    border-radius: 21px;
+}
+.history-Mood-group-lineBox-MoodCard-firstLine>img{
+    width: 50px;
+    height: 50px;
 }
 </style>
