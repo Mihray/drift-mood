@@ -46,7 +46,8 @@
                         <span class="history-Mood-group-firstLine-date">{{item.newDate}}</span>
                     </div>
                     <div class="history-Mood-group-lineBox" > 
-                        <div class="history-Mood-group-lineBox-MoodCard" v-for="item2 in item.cardList" :key="item2" :style="{'backgroundImage':'url('+item2.background+')'}">
+                        <div class="history-Mood-group-lineBox-MoodCard" v-for="item2 in item.cardList" :key="item2" :style="{'backgroundImage':'url('+item2.backgroundImage
++')'}">
                             <div class="mask"></div>
                             <div class="history-Mood-group-lineBox-MoodCard-firstLine">
                                 <div  :class="{HeadPhoto1:item2.HeadPhotoShape1,HeadPhoto2:item2.HeadPhotoShape2}" :style="{'backgroundImage':'url('+item2.avatarImage+')'}"></div>
@@ -322,6 +323,7 @@ export default {
     border-radius: 21px;
     background-color: #f0d3df;
     margin-top: 10px;
+    background-size:100% 100%;
 }
 
 .history-Mood-group-lineBox-MoodCard-firstLine{

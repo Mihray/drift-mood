@@ -103,12 +103,10 @@ export default {
                 console.log(res);
             if(saveType==='privateSave') {
                     if(res.data.result==='success')
-                    console.log('res.data.result:'+res.data.result)
                     {
                         this.$emit('saveHint',true,'privateSave','success')
                     }
                     if(res.data.result==='fail')
-                    console.log('res.data.result:'+res.data.result)
                     {
                         this.$emit('saveHint',true,'privateSave','fail')
                         console.log('触发saveHint啦')

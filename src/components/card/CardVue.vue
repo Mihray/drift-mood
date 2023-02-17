@@ -60,7 +60,7 @@ export default {
         },
         saveHint1(pram11,pram22,pram33){
             console.log('pram11,pram22,pram33:'+pram11,pram22,pram33)
-            this.$emit('SaveHint',pram11,pram22,pram33)
+            this.$emit('SaveHint1',pram11,pram22,pram33)
             console.log('触发cardVue到APP的emit事件啦')
         }
     }

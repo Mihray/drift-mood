@@ -1,6 +1,6 @@
 <template>
     <div class="home">
-        <router-view @SaveHint="SaveHint"></router-view>
+        <router-view @SaveHint1="SaveHint"></router-view>
         <bottom-bar></bottom-bar>
         <save-hint v-if="hint" :hintPram2="hintPram2" :hintPram3="hintPram3" @blank="blank"></save-hint>
     </div>

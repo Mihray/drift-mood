@@ -15,7 +15,7 @@
          <div class="exploreMood">
             <span>目的地码头</span>
             <div> 
-                <div class="exploreMood-Mood" v-for="item in ExploreMood" :key="item" @click="ExploreMoodchoiseClick(item.id)"
+                <div class="exploreMood-Mood" v-for="item in ExploreMood" :key="item" @click="ExploreMoodchoiseClick(item.id2)"
                 :class="{choised:item.choised}">{{item.name}}</div>
             </div>
          </div>
@@ -60,25 +60,31 @@ export default {
     data(){
         return{
             Exploretime:[
-                {id:0,name:'今天',choised:true},
-                {id:1,name:'昨天',choised:false},
-                {id:2,name:'全部时间',choised:false},
+                {id:0,name:'今天',choised:false},
+                // {id:1,name:'昨天',choised:false},
+                {id:1,name:'全部时间',choised:false},
             ],
             ExploreMood:[
-                {id:0,name:'开心',choised:true},
-                {id:1,name:'得意',choised:false},
-                {id:2,name:'平静',choised:false},
-                {id:3,name:'愤怒',choised:false},
-                {id:4,name:'烦躁',choised:false},
-                {id:5,name:'伤心',choised:false}
+                // {id:0,name:'开心',choised:true},
+                // {id:1,name:'得意',choised:false},
+                // {id:2,name:'平静',choised:false},
+                // {id:3,name:'愤怒',choised:false},
+                // {id:4,name:'烦躁',choised:false},
+                // {id:5,name:'伤心',choised:false}
             ],
+            time:String,
+            MoodUrl:String
         }
     },
     created(){
-        axios.post('/explore/search',
-        { 
-                headers:{token: localStorage.getItem('token')}
-            })
+        const Moodlist=this.$store.state.cardPage.moodList
+           Moodlist.forEach((item,index)=>{
+            item['id2']=index;
+            item['choised']=false;
+           })
+           console.log(Moodlist)
+           this.ExploreMood=Moodlist
+           console.log();
     },
     methods:{
         ExploretimechoiseClick(id){
@@ -87,8 +93,14 @@ export default {
             if(item.id===id){
                 return true
             }
-        })
+              })
         this.Exploretime[index].choised=true
+        if(id===0){
+            this.time='today'
+        }
+        if(id===1){
+            this.time='all'
+        }
             for(let i=0;i<this.Exploretime.length;i++){
                     if(this.Exploretime[i]!==this.Exploretime[index]){
                         this.Exploretime[i].choised=false
@@ -103,19 +115,32 @@ export default {
             //     }
         },
         ExploreMoodchoiseClick(id){
-            const index=this.ExploreMood.findIndex(item=>{
-            if(item.id===id){
-                return true
-            }
-        })
-            this.ExploreMood[index].choised=true
+        //     const index=this.ExploreMood.findIndex(item=>{
+        //     if(item.id===id){
+        //         return true
+        //     }
+        // })
+            this.ExploreMood[id].choised=true
+            this.MoodUrl=this.ExploreMood[id].id
             for(let i=0;i<this.ExploreMood.length;i++){
-                    if(this.ExploreMood[i]!==this.ExploreMood[index]){
+                    if(this.ExploreMood[i]!==this.ExploreMood[id]){
                         this.ExploreMood[i].choised=false
                     }
                 }
         },
         SetSail(){
+                axios.post('/explore/search',
+                {
+                    dateRange:this.time,
+                    mood:this.MoodUrl
+                },
+                { 
+                headers:{token: localStorage.getItem('token')}
+                }).then(res=>{
+                    console.log(res)
+                }).catch(err=>{
+                    console.log(err);
+                })
             console.log('启航啦')
         }
     }
