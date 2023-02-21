@@ -21,22 +21,26 @@
          </div>
          <button class="SetSail" @click="SetSail">启航</button>
          <div class="MoodSail">
-            <div class="MoodBox">
+            <div class="MoodBox" v-for="item in ExploreMoodList" :key="item" :style="{'backgroundImage':'url('+item.backgroundImage+')'}">
+                <div class="mask"></div>
                 <div class="choiseBackground-preview-firstLine">
-                    <div class="HeadPhoto">头像</div>
-                    <span class="name">name</span>
-                    <span class="Mood">Mood</span>
+                    <div class="HeadPhoto" :class="{HeadPhoto1:item.HeadPhotoShape1,HeadPhoto2:item.HeadPhotoShape2}" :style="{'backgroundImage':'url('+item.avatarImage+')'}"></div>
+                    <span class="name">{{item.nickName}}</span>
+                    <img :src="item.moodImage">
                 </div>
-                <div class="choisedMood_say">心情物语</div>
+                <div class="choisedMood_say">{{item.cardMessage}}</div>
                 <div class="choiseBackground-preview-lastLine"> 
-                    <div class="favorite">收藏
+                    <div  v-if="item.favorite1" class="favorite1" @click="favoriteClick(item.cardId)" >收藏
                         <img src="../../assets/切图和组件样式等/探索页-收藏icon.png">
                     </div>
-                    <div class="date">时间</div>
+                    <div v-if="item.favorite2" class="favorite2" @click="favoriteClick(item.cardId)" >已收藏
+                        <img src="../../assets/切图和组件样式等/探索页-已收藏icon.png">
+                    </div>
+                    <div class="date">{{item.cardNewTime}}</div>
                 </div>
             </div>
 
-            <div class="MoodBox">
+            <!-- <div class="MoodBox">
                 <div class="choiseBackground-preview-firstLine">
                     <div class="HeadPhoto">头像</div>
                     <span class="name">name</span>
@@ -49,7 +53,7 @@
                     </div>
                     <div class="date">时间</div>
                 </div>
-            </div>
+            </div> -->
          </div>
     </div>
 </template>
@@ -73,7 +77,13 @@ export default {
                 // {id:5,name:'伤心',choised:false}
             ],
             time:String,
-            MoodUrl:String
+            MoodUrl:String,
+            favoriteArr:[
+                {name:'收藏',imgUrl:'../../assets/切图和组件样式等/探索页-收藏icon.png'},
+                {name:'已收藏',imgUrl:'../../assets/切图和组件样式等/探索页-已收藏icon.png'}
+            ],
+            collected:Object,
+            ExploreMoodList:Array
         }
     },
     created(){
@@ -137,11 +147,96 @@ export default {
                 { 
                 headers:{token: localStorage.getItem('token')}
                 }).then(res=>{
-                    console.log(res)
+                    console.log(res.data.cardList);
+                    const faArr=res.data.cardList
+                    faArr.forEach(item => {
+                        //随机生成布尔值
+                        item['favorite']=Boolean(Math.round(Math.random()))
+
+                        function Minutes(Minutes){
+                        if(Number(Minutes.getMinutes())<10){
+                             return '0'+Minutes.getMinutes()
+                        }else{
+                            return Minutes.getMinutes()
+                        }}
+
+                        item['cardNewTime']=(new Date(item.cardTime)).getFullYear()+'年'+(Number((new Date(item.cardTime)).getMonth())+1)+'月'+(new Date(item.cardTime)).getDate()+'日'+(new Date(item.cardTime)).getHours()+':'+Minutes((new Date(item.cardTime)))
+                    });
+                    faArr.forEach(item=>{
+                        if(item.favorite===false||item.favorite===undefined||item.favorite===''){
+                        item['favorite1']=true
+                        item['favorite2']=false
+                       }
+                       if(item.favorite===true){
+                        item['favorite1']=false
+                        item['favorite2']=true
+                       }
+                       faArr.forEach(item=>{
+                        if(item.avatarShape==='circle'){
+                        item.HeadPhotoShape2=true
+                        item.HeadPhotoShape1=false
+                        }else if(item.avatarShape==='rectangle'){
+                            item.HeadPhotoShape2=false
+                            item.HeadPhotoShape1=true
+                        }
+                       })
+                    })
+                    this.ExploreMoodList=faArr
                 }).catch(err=>{
                     console.log(err);
                 })
             console.log('启航啦')
+        },
+        favoriteClick(cardId){
+            this.ExploreMoodList.forEach((item,index)=>{
+                if(item.cardId===cardId){
+                    console.log(item.favorite,item.favorite1,item.favorite2)
+                    console.log(cardId)
+                    console.log(index)
+            
+                    item.favorite1=!item.favorite1
+                    item.favorite2=!item.favorite2
+                    // return index
+                    console.log(item.favorite,item.favorite1,item.favorite2)
+
+                    if(item.favorite===false){
+                            axios.post('/explore/collect',
+                            {
+                                action:'collect',
+                                cardId:cardId
+                            },
+                            { 
+                                headers:{token: localStorage.getItem('token')}
+                            }
+                            ).then(res=>{
+                                console.log(res.data);
+                                console.log('收藏'); 
+                                item.favorite=!item.favorite
+                            }).catch(err=>{
+                                console.log(err);
+                            })
+                        }
+                        if(item.favorite===true){
+                            axios.post('/explore/collect',
+                            {
+                                action:'cancelCollect',
+                                cardId:cardId
+                            },
+                            { 
+                                headers:{token: localStorage.getItem('token')}
+                            }
+                            ).then(res=>{
+                                console.log(res.data);
+                                console.log('取消收藏');
+                                item.favorite=!item.favorite
+                            }).catch(err=>{
+                                console.log(err);
+                            })
+                        }
+                    // item.favorite=!item.favorite
+                }
+            })
+            // this.ExploreMoodList[index].favorite!=this.ExploreMoodList[index].favorite
         }
     }
 }
@@ -296,19 +391,33 @@ export default {
     align-items: center;
 }
 .choiseBackground-preview-firstLine{
-    margin-top: 10px;
+    margin-top: -180px;
+    z-index: 1;
+    position: relative;
+    margin-bottom: 10px;
     display: flex;
     justify-content:space-evenly;
     align-items:center;
     width: 343px;
 }
-.HeadPhoto{
-    width: 45px;
-    height: 45px;
-    /* border-radius:38px; */
+
+.HeadPhoto1{
+    width: 55px;
+    height: 55px;
+    border-radius:10px;
     /* background-image: ; */
     background: #ff62a5;
+    background-size: 100% 100%;
 }
+.HeadPhoto2{
+    width: 55px;
+    height: 55px;
+    border-radius:50%;
+    /* background-image: ; */
+    background: #ff62a5;
+    background-size: 100% 100%;
+}
+
 .name{
     font-size: 32px;
     font-family: PingFang SC, PingFang SC-Regular;
@@ -344,24 +453,41 @@ export default {
     justify-content: space-between;
     width: 343px;
 }
-.favorite{
+.favorite1{
     margin-left: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     width: 73px;
     height: 24px;
-    background: #3c8c8c;
+    /* background: #3c8c8c; */
     border: 1px solid #bdbdbd;
     border-radius: 4px;
+    color: #bdbdbd;
+    background-color:rgb(255, 253, 251);
+    z-index: 2;
 }
-.favorite img{
-    width: 20px;
-    height: 20px;
+.favorite1,.favorite2 img{
+    /* width: 20px; */
+    /* height: 20px; */
     /* border: 1px solid #cacaca; */
 }
+.favorite2{
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 73px;
+    height: 24px;
+    /* background: #3c8c8c; */
+    border: 1px solid #bdbdbd;
+    border-radius: 4px;
+    color: #bdbdbd;
+    background-color: #2fbc2c;
+    z-index: 2;
+}
 .date{
-    width: 150px;
+    /* width: 150px; */
     height: 20px;
     font-size: 16px;
     font-family: PingFang SC, PingFang SC-Semibold;
@@ -369,6 +495,17 @@ export default {
     color: #ffffff;
     line-height: 16px;
     letter-spacing: 0.08px;
+}
+.mask{
+    background-color: #ffffff;
+    opacity: 0.4;
+    width: 343px;
+    height: 240px;
+    border-radius: 21px;
+}
+.choiseBackground-preview-firstLine>img{
+    width: 50px;
+    height: 50px;
 }
 .exploreTime .choised{
     width: 73px;
